@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#0f3d68" />
+<title>신약성서 헬라어 3–5과 시험완벽대비</title>
+<style>
+:root{
+  --bg:#f4f7fb; --paper:#fff; --ink:#16202a; --muted:#647180; --line:#dce3eb;
+  --navy:#0f3d68; --blue:#215fa3; --blue2:#eaf3ff; --red:#c62828; --red2:#fff0ef;
+  --green:#177245; --green2:#eaf8f1; --amber:#9a5b00; --amber2:#fff6df;
+  --violet:#6741a5; --shadow:0 7px 24px rgba(25,45,70,.08); --r:17px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;font-size:18px;line-height:1.62}
+button,input,select{font:inherit}
+.top{position:sticky;top:0;z-index:100;background:rgba(244,247,251,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topin{max-width:1220px;margin:auto;padding:10px 14px}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:9px}
+.brand h1{font-size:1.22rem;margin:0;line-height:1.2;color:var(--navy)}
+.brand .today{font-size:.8rem;background:var(--red2);color:var(--red);border:1px solid #f2c7c3;border-radius:999px;padding:5px 9px;white-space:nowrap;font-weight:800}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:3px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabbtn{white-space:nowrap;border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 11px;border-radius:999px;cursor:pointer;font-size:.9rem}
+.tabbtn.active{background:var(--navy);border-color:var(--navy);color:white;font-weight:800}
+main{max-width:1220px;margin:auto;padding:16px 14px 70px}
+.page{display:none}.page.active{display:block}
+.hero,.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.hero{padding:20px;margin-bottom:15px;background:linear-gradient(135deg,#edf5ff 0,#fff 58%,#f7f2ff 100%)}
+.hero h2{margin:0 0 8px;font-size:1.4rem;color:var(--navy)}
+.hero p{margin:5px 0}
+.card{padding:17px;margin-bottom:14px}.card h2{margin:0 0 12px;font-size:1.28rem}.card h3{margin:19px 0 8px;font-size:1.08rem}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.callout{padding:12px 14px;border-radius:13px;background:var(--blue2);border-left:4px solid var(--blue);margin:10px 0}.callout.red{background:var(--red2);border-left-color:var(--red)}.callout.green{background:var(--green2);border-left-color:var(--green)}.callout.amber{background:var(--amber2);border-left-color:#d18b00}
+.badge{display:inline-block;border-radius:999px;padding:3px 8px;font-size:.78rem;font-weight:800;background:var(--blue2);color:var(--blue);margin-right:5px}.badge.red{background:var(--red2);color:var(--red)}.badge.green{background:var(--green2);color:var(--green)}
+.greek{font-family:"Times New Roman","Noto Serif",serif;font-size:1.17em}.greekbig{font-family:"Times New Roman","Noto Serif",serif;font-size:1.55rem;font-weight:700;line-height:1.35}
+.ending{color:var(--red);font-weight:900}.stem{color:#344455}.muted{color:var(--muted)}.small{font-size:.88rem;color:var(--muted)}
+.tablewrap{overflow:auto;-webkit-overflow-scrolling:touch;border-radius:14px}table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);background:#fff;border-radius:14px;overflow:hidden}th,td{padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f1f4f8;text-align:left;font-size:.9rem;color:#36414d}tr:last-child td{border-bottom:0}.tight th,.tight td{padding:8px 9px}
+.endtable td:nth-child(3){color:var(--red);font-weight:900}
+.flashgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.flash{min-height:125px;border:1px solid var(--line);border-radius:15px;background:white;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;cursor:pointer;user-select:none}.flash .back{display:none}.flash.open .front{display:none}.flash.open .back{display:block}.flash .hint{font-size:.78rem;color:var(--muted);margin-top:7px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.btn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 11px;cursor:pointer}.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:800}.btn.red{background:var(--red2);border-color:#efcac8;color:var(--red)}
+.quizbox{border:1px solid var(--line);border-radius:16px;padding:17px;background:#fff}.qprompt{font-size:1.15rem;font-weight:800;margin:5px 0 12px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.choice{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;text-align:left;cursor:pointer}.choice.correct{border-color:#6ab28e;background:var(--green2)}.choice.wrong{border-color:#e58d86;background:var(--red2)}
+.answerbox{display:none;margin-top:12px;border-radius:12px;padding:12px;background:#f5f8fc}.answerbox.show{display:block}.write{width:100%;padding:12px;border:1px solid #bdc8d4;border-radius:11px;background:#fff}.feedback{margin-top:9px;font-weight:800}
+details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:10px 0;overflow:hidden}summary{cursor:pointer;padding:12px 14px;font-weight:800;background:#fafbfd}details .inside{padding:13px 14px}
+.problem{border:1px solid var(--line);background:#fff;border-radius:15px;padding:14px;margin:10px 0}.problem.exam{border-left:5px solid var(--red)}.phead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.pnum{font-weight:900;color:var(--navy)}.pron{margin:7px 0;color:#4c5865}.trans{font-weight:800;margin:8px 0;color:#1a4d34}.analysislist{margin:8px 0 0;padding-left:1.1em}.analysislist li{margin:5px 0}
+.segment{display:inline-block;margin:2px 2px 2px 0;padding:5px 8px;border-radius:9px;background:#f6f8fb;border:1px solid var(--line)}
+.alpha{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.alphaitem{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px;text-align:center}.alphaitem b{font-family:"Times New Roman",serif;font-size:1.35rem}.alphaitem small{display:block;color:var(--muted)}
+.quickline{font-family:"Times New Roman","Noto Serif",serif;font-size:1.28rem;line-height:1.9;background:#fbfcfe;border:1px dashed #bcc9d7;border-radius:12px;padding:9px 12px}.quickline .ending{padding:0 2px}
+.hide{display:none!important}.footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:26px}
+@media(max-width:900px){body{font-size:17px}.grid2,.grid3{grid-template-columns:1fr}.flashgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.alpha{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:600px){body{font-size:17px;line-height:1.58}.brand{align-items:flex-start}.brand h1{font-size:1.08rem}.today{display:none}.topin{padding:9px 10px}main{padding:12px 10px 72px}.hero,.card{padding:14px;border-radius:15px}.hero h2{font-size:1.25rem}.flashgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.flash{min-height:112px;padding:9px}.alpha{grid-template-columns:repeat(3,minmax(0,1fr))}.choices{grid-template-columns:1fr}.greekbig{font-size:1.43rem}th,td{padding:9px 8px}.tabbtn{font-size:.86rem;padding:7px 10px}}
+@media print{.top,.controls,.btn{display:none!important}.page{display:block!important}.card,.hero{box-shadow:none;break-inside:avoid}body{background:#fff;font-size:12pt}main{max-width:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="topin">
+  <div class="brand"><h1>신약성서 헬라어 · 제3–5과 시험완벽대비</h1><span class="today">시험 전날 집중 모드</span></div>
+  <div class="tabs" id="tabs">
+    <button class="tabbtn active" data-page="home">시험범위</button>
+    <button class="tabbtn" data-page="alpha">읽기기초</button>
+    <button class="tabbtn" data-page="vocab">단어</button>
+    <button class="tabbtn" data-page="verb">동사어미</button>
+    <button class="tabbtn" data-page="noun">명사격변화</button>
+    <button class="tabbtn" data-page="ending">어미판별훈련</button>
+    <button class="tabbtn" data-page="sent">연습문제</button>
+    <button class="tabbtn" data-page="write">쓰기훈련</button>
+    <button class="tabbtn" data-page="quick">시험직전</button>
+  </div>
+</div></div>
+<main>
+<section class="page active" id="home">
+  <div class="hero">
+    <h2>사진의 큰 동그라미 범위 + 출제 규칙을 반영한 공부판</h2>
+    <p><b>제3과:</b> 현재 능동태 직설법 · 동사 8개 · 6인칭 어미 · 연습 22</p>
+    <p><b>제4과:</b> 제2변화 명사 · 성/수/격 · 남성/중성 변화 · 연습 43</p>
+    <p><b>제5과:</b> 제1변화 여성명사 · α/η 변화 · 연습 57</p>
+    <div class="callout red"><b>해석문제 실제 출제:</b> 홀수과는 홀수 번호, 짝수과는 짝수 번호. 따라서 <b>3과 1·3·5·7·9 / 4과 2·4·6·8·10·12·14·16·18·20 / 5과 1·3·5·7·9·11·13·15·17</b>을 기본 시험모드로 설정했다.</div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>오늘 반드시 외울 3축</h2>
+      <div class="callout"><b>동사 끝:</b> <span class="greek">-ω, -εις, -ει / -ομεν, -ετε, -ουσι(ν)</span></div>
+      <div class="callout"><b>제2변화 남성:</b> <span class="greek">-ος, -ου, -ῳ, -ον, -ε / -οι, -ων, -οις, -ους</span></div>
+      <div class="callout"><b>제1변화 여성:</b> <span class="greek">α형·η형</span>을 주격/속격/여격/목적격으로 끝만 보고 판별</div>
+    </div>
+    <div class="card"><h2>공부 순서</h2>
+      <ol><li><b>읽기기초</b> 10분: 글자와 자주 나오는 이중모음</li><li><b>단어</b> 30분: 카드를 앞뒤로 반복</li><li><b>동사어미 + 명사격변화</b> 표를 소리 내어 3회</li><li><b>어미판별훈련</b>에서 끝만 보고 맞히기</li><li><b>연습문제</b>에서 실제 출제 번호만 해석</li><li><b>쓰기훈련</b>으로 헬라어를 직접 입력</li></ol>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="alpha">
+  <div class="card"><h2>헬라어 읽기 기초 — 한글 보조발음</h2><p>시험 직전 학습용 보조 표기다. 단어마다 앱 안에 한글 발음을 따로 붙였으므로 이 표를 완벽히 외우지 않아도 된다.</p><div class="alpha" id="alphaGrid"></div>
+    <h3>자주 나오는 결합</h3><div class="grid3"><div class="callout"><span class="greekbig">αι</span><br><b>아이</b></div><div class="callout"><span class="greekbig">ει</span><br><b>에이</b></div><div class="callout"><span class="greekbig">οι</span><br><b>오이</b></div><div class="callout"><span class="greekbig">ου</span><br><b>우</b></div><div class="callout"><span class="greekbig">ω</span><br><b>오(길게)</b></div><div class="callout"><span class="greekbig">υ</span><br><b>위/뤼 계열</b></div></div>
+  </div>
+</section>
+
+<section class="page" id="vocab">
+  <div class="card"><h2>단어 카드</h2><div class="controls"><button class="btn primary" onclick="renderVocab('all')">전체</button><button class="btn" onclick="renderVocab(3)">3과</button><button class="btn" onclick="renderVocab(4)">4과</button><button class="btn" onclick="renderVocab(5)">5과</button><button class="btn" onclick="closeAllFlash()">모두 앞면</button></div><div class="flashgrid" id="vocabGrid"></div></div>
+</section>
+
+<section class="page" id="verb">
+  <div class="card"><h2>제3과 — 현재 능동태 직설법</h2>
+    <div class="callout red"><b>시험용 핵심:</b> 동사는 <b>맨 끝 어미</b>가 인칭과 수를 알려준다. 먼저 끝을 보고 “누가 하는가”를 판단한다.</div>
+    <div class="tablewrap"><table class="endtable"><tr><th>인칭</th><th>대표형</th><th>어미</th><th>한글 읽기</th><th>뜻</th></tr>
+      <tr><td>1인칭 단수</td><td class="greek">λύ<span class="ending">ω</span></td><td class="greek">-ω</td><td>오</td><td>내가 ~한다</td></tr>
+      <tr><td>2인칭 단수</td><td class="greek">λύ<span class="ending">εις</span></td><td class="greek">-εις</td><td>에이스</td><td>네가 ~한다</td></tr>
+      <tr><td>3인칭 단수</td><td class="greek">λύ<span class="ending">ει</span></td><td class="greek">-ει</td><td>에이</td><td>그/그녀가 ~한다</td></tr>
+      <tr><td>1인칭 복수</td><td class="greek">λύ<span class="ending">ομεν</span></td><td class="greek">-ομεν</td><td>오멘</td><td>우리가 ~한다</td></tr>
+      <tr><td>2인칭 복수</td><td class="greek">λύ<span class="ending">ετε</span></td><td class="greek">-ετε</td><td>에테</td><td>너희가 ~한다</td></tr>
+      <tr><td>3인칭 복수</td><td class="greek">λύ<span class="ending">ουσι(ν)</span></td><td class="greek">-ουσι(ν)</td><td>우시(ㄴ)</td><td>그들이 ~한다</td></tr>
+    </table></div>
+    <div class="callout amber"><b>외우는 소리:</b> 오–에이스–에이 / 오멘–에테–우시(ㄴ)</div>
+  </div>
+  <div class="card"><h2>8개 동사를 6인칭으로 보기</h2><p class="small">행을 눌러도 되고, 표를 좌우로 밀어서 볼 수 있다. 빨간 부분이 시험에서 먼저 확인할 어미다.</p><div id="verbTables"></div></div>
+</section>
+
+<section class="page" id="noun">
+  <div class="card"><h2>격부터 이해하기</h2><div class="grid3">
+    <div class="callout"><b>N 주격</b><br>~이/가, ~은/는</div><div class="callout"><b>G 속격</b><br>~의</div><div class="callout"><b>D 여격</b><br>~에게, ~로</div><div class="callout"><b>A 목적격</b><br>~을/를</div><div class="callout"><b>V 호격</b><br>~아, ~여</div></div>
+    <div class="callout red"><b>판별 순서:</b> ① 단어 끝 보기 → ② 단수/복수 후보 찾기 → ③ 성과 변화형 확인 → ④ 문장에서 주어·소유·간접목적어·목적어 역할 확인.</div>
+  </div>
+  <div class="card"><h2>제2변화 남성 — <span class="greek">ἄνθρωπος</span> 사람</h2><div id="anthTable"></div></div>
+  <div class="card"><h2>제2변화 남성 — <span class="greek">υἱός</span> 아들</h2><div id="huiTable"></div></div>
+  <div class="card"><h2>제2변화 중성 — <span class="greek">δῶρον</span> 선물</h2><div class="callout green"><b>중성의 핵심:</b> 주격 = 목적격 = 호격. 복수 주격/목적격/호격은 <span class="greek ending">-α</span>.</div><div id="doronTable"></div></div>
+  <div class="card"><h2>제1변화 여성 — 3가지 패턴</h2><div class="grid3"><div><h3>① 순수 α형 · ὥρα</h3><div id="horaTable"></div></div><div><h3>② 혼합 α형 · δόξα</h3><div id="doxaTable"></div></div><div><h3>③ η형 · γραφή</h3><div id="grapheTable"></div></div></div>
+    <div class="callout"><b>βασιλεία, ἀλήθεια</b>는 ὥρα형처럼 α를 유지한다. <b>δόξα</b>는 단수 속격·여격에서 η로 바뀐다. <b>γραφή</b>는 단수에서 η형이고 복수 어미는 α형과 같다.</div>
+  </div>
+</section>
+
+<section class="page" id="ending">
+  <div class="card"><h2>끝만 보고 맞히는 어미 판별 훈련</h2><p>단어 뜻을 몰라도 <b>빨간 끝부분</b>만 보고 형태를 먼저 찾는 연습이다.</p><div class="controls"><button class="btn primary" onclick="newEndingQ()">새 문제</button><button class="btn" onclick="showEndingAnswer()">정답 보기</button></div><div class="quizbox" id="endingQuiz"></div></div>
+  <div class="card"><h2>어미 도표 — 한글 읽기까지</h2><div id="endingCharts"></div></div>
+</section>
+
+<section class="page" id="sent">
+  <div class="card"><h2>교재 연습문제 해석</h2>
+    <div class="callout red"><b>기본 화면은 실제 출제 규칙만:</b> 3과 홀수 · 4과 짝수 · 5과 홀수. “교재 전체보기”를 누르면 사진에 있는 I번 문제 전체도 볼 수 있다.</div>
+    <div class="controls"><button class="btn primary" id="examOnlyBtn" onclick="setSentenceMode(true)">시험출제만</button><button class="btn" id="allSentBtn" onclick="setSentenceMode(false)">교재 전체보기</button></div>
+    <div id="sentenceList"></div>
+  </div>
+</section>
+
+<section class="page" id="write">
+  <div class="card"><h2>헬라어 직접 쓰기</h2><p>문제를 보고 헬라어를 직접 입력한다. 악센트·숨표까지 완전히 맞으면 “완벽”, 기본 철자는 맞지만 기호가 다르면 따로 알려준다.</p><div class="controls"><select id="writeType" class="btn" onchange="newWriteQ()"><option value="vocab">단어 뜻 → 헬라어</option><option value="verb">인칭 → 동사형</option><option value="ending">문법 → 어미</option></select><button class="btn primary" onclick="newWriteQ()">새 문제</button></div><div class="quizbox" id="writeQuiz"></div></div>
+</section>
+
+<section class="page" id="quick">
+  <div class="hero"><h2>시험장 들어가기 전 마지막 화면</h2><p>아래 5줄은 눈으로만 보지 말고 <b>소리 내서 읽고 손으로 3번</b> 써본다.</p></div>
+  <div class="card"><h2>1. 동사 현재 능동 직설법</h2><div class="quickline"><span class="ending">ω</span> · <span class="ending">εις</span> · <span class="ending">ει</span> / <span class="ending">ομεν</span> · <span class="ending">ετε</span> · <span class="ending">ουσι(ν)</span><br><span style="font-family:inherit;font-size:.9rem">오 · 에이스 · 에이 / 오멘 · 에테 · 우시(ㄴ)</span></div></div>
+  <div class="card"><h2>2. 제2변화 남성</h2><div class="quickline"><span class="ending">ος</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> · <span class="ending">ε</span> / <span class="ending">οι</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">ους</span><br><span style="font-family:inherit;font-size:.9rem">오스 · 우 · 오 · 온 · 에 / 오이 · 온 · 오이스 · 우스</span></div></div>
+  <div class="card"><h2>3. 제2변화 중성</h2><div class="quickline"><span class="ending">ον</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> / <span class="ending">α</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">α</span><br><span style="font-family:inherit;font-size:.9rem">온 · 우 · 오 · 온 / 아 · 온 · 오이스 · 아</span></div></div>
+  <div class="card"><h2>4. 제1변화 여성 α형</h2><div class="quickline"><span class="ending">α</span> · <span class="ending">ας</span> · <span class="ending">ᾳ</span> · <span class="ending">αν</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">아 · 아스 · 아 · 안 / 아이 · 온 · 아이스 · 아스</span></div></div>
+  <div class="card"><h2>5. 제1변화 여성 η형</h2><div class="quickline"><span class="ending">η</span> · <span class="ending">ης</span> · <span class="ending">ῃ</span> · <span class="ending">ην</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">에 · 에스 · 에 · 엔 / 아이 · 온 · 아이스 · 아스</span></div></div>
+  <div class="card"><h2>출제번호</h2><div class="callout red"><b>3과:</b> 1·3·5·7·9<br><b>4과:</b> 2·4·6·8·10·12·14·16·18·20<br><b>5과:</b> 1·3·5·7·9·11·13·15·17</div></div>
+</section>
+<div class="footer">교재 제3과 16–22, 제4과 23–43, 제5과 44–57 및 사진에서 표시된 범위를 기준으로 구성</div>
+</main>
+<script>
+const alphabet=[['Α α','알파','아'],['Β β','베타','ㅂ'],['Γ γ','감마','ㄱ'],['Δ δ','델타','ㄷ'],['Ε ε','엡실론','에'],['Ζ ζ','제타','즈'],['Η η','에타','에(길게)'],['Θ θ','세타','th'],['Ι ι','이오타','이'],['Κ κ','카파','ㅋ'],['Λ λ','람다','ㄹ'],['Μ μ','뮤','ㅁ'],['Ν ν','뉴','ㄴ'],['Ξ ξ','크시','크스'],['Ο ο','오미크론','오'],['Π π','피/파이','ㅍ'],['Ρ ρ','로','ㄹ'],['Σ σ/ς','시그마','ㅅ'],['Τ τ','타우','ㅌ'],['Υ υ','윕실론','위/뤼'],['Φ φ','피','ph/f'],['Χ χ','키','kh'],['Ψ ψ','프시','프스'],['Ω ω','오메가','오(길게)']];
+document.getElementById('alphaGrid').innerHTML=alphabet.map(x=>`<div class="alphaitem"><b>${x[0]}</b><small>${x[1]}</small><strong>${x[2]}</strong></div>`).join('');
+
+const vocab=[
+{l:3,g:'βλέπω',p:'블레포',m:'보다'},{l:3,g:'γινώσκω',p:'기노스코',m:'알다'},{l:3,g:'γράφω',p:'그라포',m:'쓰다(글을)'},{l:3,g:'διδάσκω',p:'디다스코',m:'가르치다'},{l:3,g:'λαμβάνω',p:'람바노',m:'취하다, 받다'},{l:3,g:'λέγω',p:'레고',m:'말하다'},{l:3,g:'λύω',p:'뤼오',m:'풀다, 파괴하다'},{l:3,g:'ἔχω',p:'에코',m:'가지다, 소유하다'},
+{l:4,g:'ἀδελφός',p:'아델포스',m:'형제',x:'남성'},{l:4,g:'ἄνθρωπος',p:'안트로포스',m:'사람, 인간',x:'남성'},{l:4,g:'ἀπόστολος',p:'아포스톨로스',m:'사도',x:'남성'},{l:4,g:'δοῦλος',p:'둘로스',m:'종, 노예',x:'남성'},{l:4,g:'δῶρον',p:'도론',m:'선물',x:'중성'},{l:4,g:'θάνατος',p:'타나토스',m:'죽음',x:'남성'},{l:4,g:'ἱερόν',p:'히에론',m:'성전, 성역',x:'중성'},{l:4,g:'καί',p:'카이',m:'그리고, 또',x:'접속사'},{l:4,g:'λόγος',p:'로고스',m:'말씀, 말',x:'남성'},{l:4,g:'νόμος',p:'노모스',m:'율법',x:'남성'},{l:4,g:'οἶκος',p:'오이코스',m:'집',x:'남성'},{l:4,g:'υἱός',p:'휘오스',m:'아들',x:'남성'},
+{l:5,g:'ἀλήθεια',p:'알레테이아',m:'진리, 참',x:'여성'},{l:5,g:'βασιλεία',p:'바실레이아',m:'왕국, 나라, 주권',x:'여성'},{l:5,g:'γραφή',p:'그라페',m:'문서, 성경',x:'여성'},{l:5,g:'δόξα',p:'독사',m:'영광',x:'여성'},{l:5,g:'εἰρήνη',p:'에이레네',m:'평화, 평강',x:'여성'},{l:5,g:'ἐκκλησία',p:'에클레시아',m:'교회',x:'여성'},{l:5,g:'ἐντολή',p:'엔톨레',m:'계명',x:'여성'},{l:5,g:'ζωή',p:'조에',m:'생명',x:'여성'},{l:5,g:'ἡμέρα',p:'헤메라',m:'날',x:'여성'},{l:5,g:'καρδία',p:'카르디아',m:'마음',x:'여성'},{l:5,g:'παραβολή',p:'파라볼레',m:'비유',x:'여성'},{l:5,g:'φωνή',p:'포네',m:'음성, 소리',x:'여성'},{l:5,g:'ψυχή',p:'프쉬케',m:'혼, 목숨',x:'여성'},{l:5,g:'ὥρα',p:'호라',m:'시간',x:'여성'}
+];
+function renderVocab(lesson='all'){const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);document.getElementById('vocabGrid').innerHTML=a.map(v=>`<div class="flash" onclick="this.classList.toggle('open')"><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div><div class="hint">눌러서 확인</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`).join('')}
+function closeAllFlash(){document.querySelectorAll('.flash').forEach(x=>x.classList.remove('open'))} renderVocab();
+
+const verbBases=[
+{g:'βλέπω',stem:'βλεπ',p:'블레포',m:'보다',forms:[['βλέπω','블레포'],['βλέπεις','블레페이스'],['βλέπει','블레페이'],['βλέπομεν','블레포멘'],['βλέπετε','블레페테'],['βλέπουσι(ν)','블레푸시(ㄴ)']]},
+{g:'γινώσκω',stem:'γινωσκ',p:'기노스코',m:'알다',forms:[['γινώσκω','기노스코'],['γινώσκεις','기노스케이스'],['γινώσκει','기노스케이'],['γινώσκομεν','기노스코멘'],['γινώσκετε','기노스케테'],['γινώσκουσι(ν)','기노스쿠시(ㄴ)']]},
+{g:'γράφω',stem:'γραφ',p:'그라포',m:'쓰다',forms:[['γράφω','그라포'],['γράφεις','그라페이스'],['γράφει','그라페이'],['γράφομεν','그라포멘'],['γράφετε','그라페테'],['γράφουσι(ν)','그라푸시(ㄴ)']]},
+{g:'διδάσκω',stem:'διδασκ',p:'디다스코',m:'가르치다',forms:[['διδάσκω','디다스코'],['διδάσκεις','디다스케이스'],['διδάσκει','디다스케이'],['διδάσκομεν','디다스코멘'],['διδάσκετε','디다스케테'],['διδάσκουσι(ν)','디다스쿠시(ㄴ)']]},
+{g:'λαμβάνω',stem:'λαμβαν',p:'람바노',m:'취하다',forms:[['λαμβάνω','람바노'],['λαμβάνεις','람바네이스'],['λαμβάνει','람바네이'],['λαμβάνομεν','람바노멘'],['λαμβάνετε','람바네테'],['λαμβάνουσι(ν)','람바누시(ㄴ)']]},
+{g:'λέγω',stem:'λεγ',p:'레고',m:'말하다',forms:[['λέγω','레고'],['λέγεις','레게이스'],['λέγει','레게이'],['λέγομεν','레고멘'],['λέγετε','레게테'],['λέγουσι(ν)','레구시(ㄴ)']]},
+{g:'λύω',stem:'λυ',p:'뤼오',m:'풀다',forms:[['λύω','뤼오'],['λύεις','뤼에이스'],['λύει','뤼에이'],['λύομεν','뤼오멘'],['λύετε','뤼에테'],['λύουσι(ν)','뤼우시(ㄴ)']]},
+{g:'ἔχω',stem:'ἐχ',p:'에코',m:'가지다',forms:[['ἔχω','에코'],['ἔχεις','에케이스'],['ἔχει','에케이'],['ἔχομεν','에코멘'],['ἔχετε','에케테'],['ἔχουσι(ν)','에쿠시(ㄴ)']]}
+];
+const person=['1인칭 단수','2인칭 단수','3인칭 단수','1인칭 복수','2인칭 복수','3인칭 복수']; const vend=['ω','εις','ει','ομεν','ετε','ουσι(ν)'];
+document.getElementById('verbTables').innerHTML=verbBases.map(v=>`<details><summary><span class="greek">${v.g}</span> · ${v.p} · ${v.m}</summary><div class="inside"><div class="tablewrap"><table class="tight"><tr><th>인칭</th><th>형태</th><th>발음</th><th>뜻</th></tr>${v.forms.map((f,i)=>`<tr><td>${person[i]}</td><td class="greek">${f[0]}</td><td>${f[1]}</td><td>${i===0?'내가':i===1?'네가':i===2?'그가':i===3?'우리가':i===4?'너희가':'그들이'} ${v.m}</td></tr>`).join('')}</table></div></div></details>`).join('');
+
+function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="greek">${r[1]}</td><td>${r[2]}</td><td class="greek">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
+document.getElementById('anthTable').innerHTML=paradigmHTML([['N 주격','ἄνθρωπος','안트로포스','ἄνθρωποι','안트로포이'],['G 속격','ἀνθρώπου','안트로푸','ἀνθρώπων','안트로폰'],['D 여격','ἀνθρώπῳ','안트로포','ἀνθρώποις','안트로포이스'],['A 목적격','ἄνθρωπον','안트로폰','ἀνθρώπους','안트로푸스'],['V 호격','ἄνθρωπε','안트로페','ἄνθρωποι','안트로포이']]);
+document.getElementById('huiTable').innerHTML=paradigmHTML([['N 주격','υἱός','휘오스','υἱοί','휘오이'],['G 속격','υἱοῦ','휘우','υἱῶν','휘온'],['D 여격','υἱῷ','휘오','υἱοῖς','휘오이스'],['A 목적격','υἱόν','휘온','υἱούς','휘우스'],['V 호격','υἱέ','휘에','υἱοί','휘오이']]);
+document.getElementById('doronTable').innerHTML=paradigmHTML([['N/V 주격·호격','δῶρον','도론','δῶρα','도라'],['G 속격','δώρου','도루','δώρων','도론'],['D 여격','δώρῳ','도로','δώροις','도로이스'],['A 목적격','δῶρον','도론','δῶρα','도라']]);
+document.getElementById('horaTable').innerHTML=paradigmHTML([['N/V','ὥρα','호라','ὧραι','호라이'],['G','ὥρας','호라스','ὡρῶν','호론'],['D','ὥρᾳ','호라','ὥραις','호라이스'],['A','ὥραν','호란','ὥρας','호라스']]);
+document.getElementById('doxaTable').innerHTML=paradigmHTML([['N/V','δόξα','독사','δόξαι','독사이'],['G','δόξης','독세스','δοξῶν','독손'],['D','δόξῃ','독세','δόξαις','독사이스'],['A','δόξαν','독산','δόξας','독사스']]);
+document.getElementById('grapheTable').innerHTML=paradigmHTML([['N/V','γραφή','그라페','γραφαί','그라파이'],['G','γραφῆς','그라페스','γραφῶν','그라폰'],['D','γραφῇ','그라페','γραφαῖς','그라파이스'],['A','γραφήν','그라펜','γραφάς','그라파스']]);
+
+const endingSets=[
+{name:'동사 현재 능동 직설법',rows:[['-ω','오','1인칭 단수'],['-εις','에이스','2인칭 단수'],['-ει','에이','3인칭 단수'],['-ομεν','오멘','1인칭 복수'],['-ετε','에테','2인칭 복수'],['-ουσι(ν)','우시(ㄴ)','3인칭 복수']]},
+{name:'제2변화 남성 단수',rows:[['-ος','오스','주격 단수'],['-ου','우','속격 단수'],['-ῳ','오','여격 단수'],['-ον','온','목적격 단수'],['-ε','에','호격 단수']]},
+{name:'제2변화 남성 복수',rows:[['-οι','오이','주격/호격 복수'],['-ων','온','속격 복수'],['-οις','오이스','여격 복수'],['-ους','우스','목적격 복수']]},
+{name:'제2변화 중성',rows:[['-ον','온','주격/목적격/호격 단수'],['-ου','우','속격 단수'],['-ῳ','오','여격 단수'],['-α','아','주격/목적격/호격 복수'],['-ων','온','속격 복수'],['-οις','오이스','여격 복수']]},
+{name:'제1변화 여성 α형',rows:[['-α','아','주격/호격 단수'],['-ας','아스','속격 단수 또는 목적격 복수'],['-ᾳ','아','여격 단수'],['-αν','안','목적격 단수'],['-αι','아이','주격/호격 복수'],['-ῶν','온','속격 복수'],['-αις','아이스','여격 복수']]},
+{name:'제1변화 여성 η형',rows:[['-η','에','주격/호격 단수'],['-ης','에스','속격 단수'],['-ῃ','에','여격 단수'],['-ην','엔','목적격 단수'],['-αι','아이','주격/호격 복수'],['-ῶν','온','속격 복수'],['-αις','아이스','여격 복수'],['-ας','아스','목적격 복수']]}
+];
+document.getElementById('endingCharts').innerHTML=endingSets.map(s=>`<details open><summary>${s.name}</summary><div class="inside"><div class="tablewrap"><table class="tight"><tr><th>어미</th><th>읽기</th><th>알려주는 것</th></tr>${s.rows.map(r=>`<tr><td class="greek ending">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table></div></div></details>`).join('');
+
+const endingQuizData=[
+{form:'βλέπεις',split:'βλέπ|εις',p:'블레페이스',a:'2인칭 단수 동사',why:'-εις → 현재 능동 직설법 2인칭 단수'},
+{form:'λύομεν',split:'λύ|ομεν',p:'뤼오멘',a:'1인칭 복수 동사',why:'-ομεν → 1인칭 복수'},
+{form:'γράφουσιν',split:'γράφ|ουσιν',p:'그라푸신',a:'3인칭 복수 동사',why:'-ουσι(ν) → 3인칭 복수'},
+{form:'ἀνθρώπου',split:'ἀνθρώπ|ου',p:'안트로푸',a:'속격 단수 남성',why:'제2변화 남성 -ου → 속격 단수'},
+{form:'ἀνθρώπους',split:'ἀνθρώπ|ους',p:'안트로푸스',a:'목적격 복수 남성',why:'제2변화 남성 -ους → 목적격 복수'},
+{form:'δούλοις',split:'δούλ|οις',p:'둘로이스',a:'여격 복수 남성',why:'제2변화 -οις → 여격 복수'},
+{form:'δῶρα',split:'δώρ|α',p:'도라',a:'중성 주격/목적격/호격 복수',why:'중성 복수 -α. 문장 역할에 따라 주격/목적격/호격'},
+{form:'δώρων',split:'δώρ|ων',p:'도론',a:'속격 복수 중성',why:'-ων → 속격 복수'},
+{form:'ὥραν',split:'ὥρ|αν',p:'호란',a:'목적격 단수 여성 α형',why:'제1변화 α형 -αν → 목적격 단수'},
+{form:'ὥραις',split:'ὥρ|αις',p:'호라이스',a:'여격 복수 여성',why:'-αις → 제1변화 여격 복수'},
+{form:'γραφῆς',split:'γραφ|ῆς',p:'그라페스',a:'속격 단수 여성 η형',why:'η형 -ης → 속격 단수'},
+{form:'γραφήν',split:'γραφ|ήν',p:'그라펜',a:'목적격 단수 여성 η형',why:'η형 -ην → 목적격 단수'},
+{form:'δόξης',split:'δόξ|ης',p:'독세스',a:'속격 단수 여성 혼합 α형',why:'δόξα는 단수 속격에서 α→η, -ης'},
+{form:'βασιλείαις',split:'βασιλεί|αις',p:'바실레이아이스',a:'여격 복수 여성',why:'-αις → 여격 복수'},
+{form:'ἐκκλησίας',split:'ἐκκλησί|ας',p:'에클레시아스',a:'형태만으로 속격 단수 또는 목적격 복수 가능',why:'제1변화 -ας는 문맥에 따라 G.sg 또는 A.pl 가능'}
+];
+let currentEnding=null;
+function newEndingQ(){currentEnding=endingQuizData[Math.floor(Math.random()*endingQuizData.length)];const [st,en]=currentEnding.split.split('|');document.getElementById('endingQuiz').innerHTML=`<div class="small">형태를 끝만 보고 분석하세요.</div><div class="greekbig" style="margin:8px 0"><span class="stem">${st}</span><span class="ending">${en}</span></div><div><b>읽기:</b> ${currentEnding.p}</div><div class="choices" style="margin-top:12px">${shuffle([currentEnding.a,'주격 단수','속격 복수','목적격 단수']).map(c=>`<button class="choice" onclick="chooseEnding(this,'${esc(c)}')">${c}</button>`).join('')}</div><div class="answerbox" id="endingAns"><b>${currentEnding.a}</b><br>${currentEnding.why}</div>`}
+function chooseEnding(btn,val){document.querySelectorAll('#endingQuiz .choice').forEach(b=>b.disabled=true);if(val===currentEnding.a){btn.classList.add('correct')}else{btn.classList.add('wrong');[...document.querySelectorAll('#endingQuiz .choice')].find(b=>b.textContent===currentEnding.a)?.classList.add('correct')}showEndingAnswer()}
+function showEndingAnswer(){document.getElementById('endingAns')?.classList.add('show')} function esc(s){return s.replaceAll("'","&#39;")} function shuffle(a){return [...a].sort(()=>Math.random()-.5)} newEndingQ();
+
+const sent={
+3:[
+[1,'βλέπεις, γινώσκεις, λαμβάνεις.','블레페이스, 기노스케이스, 람바네이스.','네가 본다, 네가 안다, 네가 취한다.',['βλέπεις · -εις → 2인칭 단수','γινώσκεις · -εις → 2인칭 단수','λαμβάνεις · -εις → 2인칭 단수']],
+[2,'γράφει, ἔχει, λέγει.','그라페이, 에케이, 레게이.','그가 쓴다, 그가 가진다, 그가 말한다.',[]],
+[3,'λύει, διδάσκει, βλέπει.','뤼에이, 디다스케이, 블레페이.','그가 푼다, 그가 가르친다, 그가 본다.',['세 형태 모두 -ει → 3인칭 단수']],
+[4,'λαμβάνομεν, ἔχομεν, γινώσκομεν.','람바노멘, 에코멘, 기노스코멘.','우리가 취한다, 우리가 가진다, 우리가 안다.',[]],
+[5,'βλέπετε, λέγετε, γράφετε.','블레페테, 레게테, 그라페테.','너희가 본다, 너희가 말한다, 너희가 쓴다.',['세 형태 모두 -ετε → 2인칭 복수']],
+[6,'διδάσκουσι, λαμβάνουσι, λύουσι.','디다스쿠시, 람바누시, 뤼우시.','그들이 가르친다, 그들이 취한다, 그들이 푼다.',[]],
+[7,'γινώσκετε, γινώσκεις, γινώσκομεν.','기노스케테, 기노스케이스, 기노스코멘.','너희가 안다, 네가 안다, 우리가 안다.',['-ετε → 2인칭 복수','-εις → 2인칭 단수','-ομεν → 1인칭 복수']],
+[8,'βλέπομεν, διδάσκουσι, λέγει.','블레포멘, 디다스쿠시, 레게이.','우리가 본다, 그들이 가르친다, 그가 말한다.',[]],
+[9,'ἔχεις, βλέπουσι, λαμβάνομεν.','에케이스, 블레푸시, 람바노멘.','네가 가진다, 그들이 본다, 우리가 취한다.',['-εις → 2인칭 단수','-ουσι → 3인칭 복수','-ομεν → 1인칭 복수']]
+],
+4:[
+[1,'ἀδελφὸς βλέπει ἄνθρωπον.','아델포스 블레페이 안트로폰.','형제가 사람을 본다.',[]],
+[2,'δοῦλος γράφει λόγους.','둘로스 그라페이 로구스.','종이 말씀들을 쓴다.',['δοῦλος · -ος → 주격 단수 → 종이','γράφει · -ει → 3인칭 단수 → 쓴다','λόγους · -ους → 목적격 복수 → 말씀들을']],
+[3,'ἀπόστολοι διδάσκουσιν ἄνθρωπον.','아포스톨로이 디다스쿠신 안트로폰.','사도들이 사람을 가르친다.',[]],
+[4,'ἀπόστολοι λύουσι δούλους.','아포스톨로이 뤼우시 둘루스.','사도들이 종들을 풀어 준다.',['ἀπόστολοι · -οι → 주격 복수','λύουσι · -ουσι → 3인칭 복수','δούλους · -ους → 목적격 복수']],
+[5,'δοῦλος λαμβάνει δῶρα.','둘로스 람바네이 도라.','종이 선물들을 취한다.',[]],
+[6,'λαμβάνουσιν υἱοὶ οἴκους.','람바누신 휘오이 오이쿠스.','아들들이 집들을 취한다.',['λαμβάνουσιν · -ουσιν → 3인칭 복수','υἱοί · -οι → 주격 복수 → 아들들이','οἴκους · -ους → 목적격 복수 → 집들을','어순이 동사-주어-목적어여도 격어미로 역할을 찾는다.']],
+[7,'δούλους καὶ οἴκους λαμβάνουσιν ἀδελφοί.','둘루스 카이 오이쿠스 람바누신 아델포이.','형제들이 종들과 집들을 취한다.',[]],
+[8,'βλέπομεν ἱερὰ καὶ ἀποστόλους.','블레포멘 히에라 카이 아포스톨루스.','우리가 성전들과 사도들을 본다.',['βλέπομεν · -ομεν → 1인칭 복수','ἱερά · 중성 -α → 목적격 복수(여기서는 목적어)','ἀποστόλους · -ους → 목적격 복수']],
+[9,'δούλους βλέπετε καὶ ἀδελφούς.','둘루스 블레페테 카이 아델푸스.','너희가 종들과 형제들을 본다.',[]],
+[10,'γράφεις λόγον ἀποστόλῳ.','그라페이스 로곤 아포스톨로.','네가 사도에게 말씀을 쓴다.',['γράφεις · -εις → 2인칭 단수','λόγον · -ον → 목적격 단수','ἀποστόλῳ · -ῳ → 여격 단수 → 사도에게']],
+[11,'διδάσκει ἄνθρωπον.','디다스케이 안트로폰.','그가 사람을 가르친다.',[]],
+[12,'ἀδελφὸς λέγει λόγον ἀποστόλῳ.','아델포스 레게이 로곤 아포스톨로.','형제가 사도에게 말씀을 말한다.',['ἀδελφός · -ος → 주격 단수','λέγει · -ει → 3인칭 단수','λόγον · -ον → 목적격 단수','ἀποστόλῳ · -ῳ → 여격 단수']],
+[13,'ἀδελφὸς ἀποστόλων γινώσκει νόμον.','아델포스 아포스톨론 기노스케이 노몬.','사도들의 형제가 율법을 안다.',[]],
+[14,'δοῦλοι γινώσκουσι νόμον καὶ λαμβάνουσι δῶρα.','둘로이 기노스쿠시 노몬 카이 람바누시 도라.','종들이 율법을 알고 선물들을 취한다.',['δοῦλοι · -οι → 주격 복수','γινώσκουσι · -ουσι → 3인칭 복수','νόμον · -ον → 목적격 단수','δῶρα · 중성 -α → 목적격 복수']],
+[15,'γινώσκουσιν ἄνθρωποι θάνατον.','기노스쿠신 안트로포이 타나톤.','사람들이 죽음을 안다.',[]],
+[16,'λαμβάνομεν δῶρα καὶ ἔχομεν ἀδελφούς.','람바노멘 도라 카이 에코멘 아델푸스.','우리가 선물들을 취하고 형제들을 가지고 있다.',['λαμβάνομεν · -ομεν → 1인칭 복수','δῶρα · -α → 중성 목적격 복수','ἔχομεν · -ομεν → 1인칭 복수','ἀδελφούς · -ους → 목적격 복수']],
+[17,'ἀποστόλοις καὶ δούλοις λέγομεν λόγους θανάτου.','아포스톨로이스 카이 둘로이스 레고멘 로구스 타나투.','우리가 사도들과 종들에게 죽음의 말씀들을 말한다.',[]],
+[18,'ἀδελφοὶ καὶ δοῦλοι γινώσκουσιν καὶ βλέπουσιν ἱερὰ καὶ δῶρα.','아델포이 카이 둘로이 기노스쿠신 카이 블레푸신 히에라 카이 도라.','형제들과 종들이 성전들과 선물들을 알고 또 본다.',['ἀδελφοί/δοῦλοι · -οι → 주격 복수','γινώσκουσιν/βλέπουσιν · -ουσιν → 3인칭 복수','ἱερά/δῶρα · 중성 -α → 여기서는 목적격 복수']],
+[19,'γράφει ἀπόστολος νόμον καὶ λέγει λόγους υἱοῖς δούλου.','그라페이 아포스톨로스 노몬 카이 레게이 로구스 휘오이스 둘루.','사도가 율법을 쓰고 종의 아들들에게 말씀들을 말한다.',[]],
+[20,'υἱοὶ ἀποστόλων λέγουσι λόγους καὶ λύουσι δούλους.','휘오이 아포스톨론 레구시 로구스 카이 뤼우시 둘루스.','사도들의 아들들이 말씀들을 말하고 종들을 풀어 준다.',['υἱοί · -οι → 주격 복수','ἀποστόλων · -ων → 속격 복수 → 사도들의','λέγουσι/λύουσι · -ουσι → 3인칭 복수','λόγους/δούλους · -ους → 목적격 복수']]
+],
+5:[
+[1,'ψυχὴ βλέπει ζωήν.','프쉬케 블레페이 조엔.','혼이 생명을 본다.',['ψυχή · -η → 주격 단수 여성','βλέπει · -ει → 3인칭 단수','ζωήν · -ην → 목적격 단수 여성 η형']],
+[2,'βασιλεία γινώσκει ἀλήθειαν.','바실레이아 기노스케이 알레테이안.','왕국이 진리를 안다.',[]],
+[3,'ἄνθρωπος γράφει ἐντολὰς καὶ νόμους.','안트로포스 그라페이 엔톨라스 카이 노무스.','사람이 계명들과 율법들을 쓴다.',['ἄνθρωπος · -ος → 주격 단수','γράφει · -ει → 3인칭 단수','ἐντολάς · -ας → 목적격 복수 여성','νόμους · -ους → 목적격 복수 남성']],
+[4,'ἀπόστολοι λαμβάνουσι δούλους καὶ δῶρα καὶ ἐκκλησίας.','아포스톨로이 람바누시 둘루스 카이 도라 카이 에클레시아스.','사도들이 종들과 선물들과 교회들을 취한다.',[]],
+[5,'ἀπόστολοι καὶ ἐκκλησίαι βλέπουσι ζωήν καὶ θάνατον.','아포스톨로이 카이 에클레시아이 블레푸시 조엔 카이 타나톤.','사도들과 교회들이 생명과 죽음을 본다.',['ἀπόστολοι · -οι → 주격 복수','ἐκκλησίαι · -αι → 주격 복수 여성','βλέπουσι · -ουσι → 3인칭 복수','ζωήν · -ην → 목적격 단수','θάνατον · -ον → 목적격 단수']],
+[6,'υἱὸς δούλου λέγει παραβολὴν ἐκκλησίᾳ.','휘오스 둘루 레게이 파라볼렌 에클레시아.','종의 아들이 교회에게 비유를 말한다.',[]],
+[7,'παραβολὴν λέγομεν καὶ ἐντολὴν καὶ νόμον.','파라볼렌 레고멘 카이 엔톨렌 카이 노몬.','우리는 비유와 계명과 율법을 말한다.',['παραβολήν · -ην → 목적격 단수','λέγομεν · -ομεν → 1인칭 복수','ἐντολήν · -ην → 목적격 단수','νόμον · -ον → 목적격 단수','목적어가 문장 앞에 있어도 어미로 역할을 찾는다.']],
+[8,'βασιλείας γινώσκετε καὶ ἐκκλησίας.','바실레이아스 기노스케테 카이 에클레시아스.','너희가 왕국들과 교회들을 안다.',[]],
+[9,'ἐκκλησίαν διδάσκει ἀπόστολος καὶ βασιλείαν δοῦλος.','에클레시안 디다스케이 아포스톨로스 카이 바실레이안 둘로스.','사도가 교회를 가르치고 종이 왕국을 가르친다.',['ἐκκλησίαν · -αν → 목적격 단수','διδάσκει · -ει → 3인칭 단수','ἀπόστολος · -ος → 주격 단수','βασιλείαν · -αν → 목적격 단수','δοῦλος · -ος → 주격 단수']],
+[10,'νόμον καὶ παραβολὴν γράφει ἄνθρωπος ἐκκλησίᾳ.','노몬 카이 파라볼렌 그라페이 안트로포스 에클레시아.','사람이 교회에게 율법과 비유를 쓴다.',[]],
+[11,'καρδίαι ἀνθρώπων ἔχουσι ζωήν καὶ εἰρήνην.','카르디아이 안트로폰 에쿠시 조엔 카이 에이레넨.','사람들의 마음들이 생명과 평화를 가지고 있다.',['καρδίαι · -αι → 주격 복수 여성','ἀνθρώπων · -ων → 속격 복수','ἔχουσι · -ουσι → 3인칭 복수','ζωήν/εἰρήνην · -ην → 목적격 단수 여성']],
+[12,'φωνὴ ἀποστόλων διδάσκει ψυχὰς δούλων.','포네 아포스톨론 디다스케이 프쉬카스 둘론.','사도들의 음성이 종들의 혼들을 가르친다.',[]],
+[13,'ὥρα ἔχει δόξαν.','호라 에케이 독산.','시간이 영광을 가지고 있다.',['ὥρα · -α → 주격 단수 여성','ἔχει · -ει → 3인칭 단수','δόξαν · -αν → 목적격 단수 여성']],
+[14,'φωναὶ ἐκκλησιῶν διδάσκουσι βασιλείας καὶ ἀνθρώπους.','포나이 에클레시온 디다스쿠시 바실레이아스 카이 안트로푸스.','교회들의 음성들이 왕국들과 사람들을 가르친다.',[]],
+[15,'βλέπεις δῶρα καὶ δόξαν.','블레페이스 도라 카이 독산.','너는 선물들과 영광을 본다.',['βλέπεις · -εις → 2인칭 단수','δῶρα · 중성 -α → 목적격 복수','δόξαν · -αν → 목적격 단수 여성']],
+[16,'γράφει ἐκκλησία λόγον ζωῆς.','그라페이 에클레시아 로곤 조에스.','교회가 생명의 말씀을 쓴다.',[]],
+[17,'λέγει καρδίαις ἀνθρώπων παραβολὴν καὶ νόμον.','레게이 카르디아이스 안트로폰 파라볼렌 카이 노몬.','그가 사람들의 마음들에게 비유와 율법을 말한다.',['λέγει · -ει → 3인칭 단수(주어 생략)','καρδίαις · -αις → 여격 복수','ἀνθρώπων · -ων → 속격 복수','παραβολήν · -ην → 목적격 단수','νόμον · -ον → 목적격 단수']],
+[18,'γράφει ἐκκλησίᾳ υἱὸς ἀποστόλου.','그라페이 에클레시아 휘오스 아포스톨루.','사도의 아들이 교회에게 쓴다.',[]]
+]};
+function isExam(lesson,n){return lesson%2===1?n%2===1:n%2===0} let examOnly=true;
+function setSentenceMode(v){examOnly=v;document.getElementById('examOnlyBtn').classList.toggle('primary',v);document.getElementById('allSentBtn').classList.toggle('primary',!v);renderSentences()}
+function renderSentences(){let html='';[3,4,5].forEach(l=>{html+=`<h3>제${l}과 ${l%2?'홀수':'짝수'} 번호</h3>`;sent[l].filter(x=>!examOnly||isExam(l,x[0])).forEach(x=>{const ex=isExam(l,x[0]);html+=`<div class="problem ${ex?'exam':''}"><div class="phead"><div class="pnum">${l}과-${x[0]}</div>${ex?'<span class="badge red">시험출제</span>':''}</div><div class="greekbig">${x[1]}</div><div class="pron"><b>읽기:</b> ${x[2]}</div><button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">해석·해설 보기</button><div class="answerbox"><div class="trans">→ ${x[3]}</div>${x[4].length?`<ul class="analysislist">${x[4].map(n=>`<li>${n}</li>`).join('')}</ul>`:'<div class="small">교재 전체보기 항목입니다. 시험번호에서는 위·아래의 상세 해설을 집중해서 반복하세요.</div>'}</div></div>`})});document.getElementById('sentenceList').innerHTML=html} renderSentences();
+
+function stripGreek(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ς/g,'σ').replace(/[()\s·.,]/g,'').toLowerCase()}
+let writeQ=null;
+const writeVerb=[];verbBases.forEach(v=>v.forms.forEach((f,i)=>writeVerb.push({q:`${v.m} · ${person[i]}`,a:f[0],h:f[1]})));
+const writeEnding=endingSets.flatMap(s=>s.rows.map(r=>({q:`${s.name} · ${r[2]}`,a:r[0].replace('-',''),h:r[1]})));
+function newWriteQ(){const t=document.getElementById('writeType').value;let pool;if(t==='vocab')pool=vocab.filter(v=>v.g!=='καί').map(v=>({q:`${v.m} (${v.l}과)`,a:v.g,h:v.p}));else if(t==='verb')pool=writeVerb;else pool=writeEnding;writeQ=pool[Math.floor(Math.random()*pool.length)];document.getElementById('writeQuiz').innerHTML=`<div class="small">문제</div><div class="qprompt">${writeQ.q}</div><input id="writeInput" class="write greek" autocomplete="off" autocapitalize="off" placeholder="헬라어를 직접 입력"><div class="controls"><button class="btn primary" onclick="checkWrite()">채점</button><button class="btn" onclick="showWrite()">정답 보기</button></div><div id="writeFb" class="feedback"></div>`;setTimeout(()=>document.getElementById('writeInput')?.focus(),50)}
+function checkWrite(){const v=document.getElementById('writeInput').value.trim(),fb=document.getElementById('writeFb');if(v===writeQ.a){fb.innerHTML=`<span style="color:var(--green)">완벽합니다.</span> ${writeQ.a} · ${writeQ.h}`;return}if(stripGreek(v)===stripGreek(writeQ.a)){fb.innerHTML=`<span style="color:var(--amber)">기본 철자는 맞습니다.</span> 악센트/숨표/기호까지 확인: <span class="greek">${writeQ.a}</span> (${writeQ.h})`;return}fb.innerHTML=`<span style="color:var(--red)">다시 확인.</span> 정답은 아직 숨겨두었습니다.`}
+function showWrite(){document.getElementById('writeFb').innerHTML=`정답: <span class="greekbig">${writeQ.a}</span> · ${writeQ.h}`} newWriteQ();
+
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tabbtn');if(!b)return;document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})});
+</script>
+</body>
+</html>
