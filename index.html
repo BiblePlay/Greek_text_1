@@ -201,6 +201,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 
 <section class="page" id="sent">
   <div class="card"><h2>교재 연습문제 해석</h2>
+    <div class="controls" id="sentenceLessonFilters"></div>
     <div class="callout red"><b>기본 화면은 실제 출제 규칙만:</b> 3과 홀수 · 4과 짝수 · 5과 홀수. “교재 전체보기”를 누르면 사진에 있는 I번 문제 전체도 볼 수 있다.</div>
     <div class="controls"><button class="btn primary" id="examOnlyBtn" onclick="setSentenceMode(true)">시험출제만</button><button class="btn" id="allSentBtn" onclick="setSentenceMode(false)">교재 전체보기</button></div>
     <div id="sentenceList"></div>
@@ -420,9 +421,37 @@ const sent={
 [17,'λέγει καρδίαις ἀνθρώπων παραβολὴν καὶ νόμον.','레게이 카르디아이스 안트로폰 파라볼렌 카이 노몬.','그가 사람들의 마음들에게 비유와 율법을 말한다.',['λέγει · -ει → 3인칭 단수(주어 생략)','καρδίαις · -αις → 여격 복수','ἀνθρώπων · -ων → 속격 복수','παραβολήν · -ην → 목적격 단수','νόμον · -ον → 목적격 단수']],
 [18,'γράφει ἐκκλησίᾳ υἱὸς ἀποστόλου.','그라페이 에클레시아 휘오스 아포스톨루.','사도의 아들이 교회에게 쓴다.',[]]
 ]};
-function isExam(lesson,n){return lesson%2===1?n%2===1:n%2===0} let examOnly=true;
+function isExam(lesson,n){return lesson%2===1?n%2===1:n%2===0}
+let examOnly=true;
+let currentSentenceLesson='all';
+function sentenceLessons(){return Object.keys(sent).map(Number).sort((a,b)=>a-b)}
+function renderSentenceLessonFilters(){
+  const box=document.getElementById('sentenceLessonFilters');
+  if(!box)return;
+  const buttons=[`<button class="btn sentence-lesson-btn ${currentSentenceLesson==='all'?'primary':''}" data-lesson="all" onclick="setSentenceLesson('all')">전체</button>`]
+    .concat(sentenceLessons().map(l=>`<button class="btn sentence-lesson-btn ${String(currentSentenceLesson)===String(l)?'primary':''}" data-lesson="${l}" onclick="setSentenceLesson(${l})">${l}과</button>`));
+  box.innerHTML=buttons.join('');
+}
+function setSentenceLesson(lesson){
+  currentSentenceLesson=lesson;
+  renderSentenceLessonFilters();
+  renderSentences();
+}
 function setSentenceMode(v){examOnly=v;document.getElementById('examOnlyBtn').classList.toggle('primary',v);document.getElementById('allSentBtn').classList.toggle('primary',!v);renderSentences()}
-function renderSentences(){let html='';[3,4,5].forEach(l=>{html+=`<h3>제${l}과 ${l%2?'홀수':'짝수'} 번호</h3>`;sent[l].filter(x=>!examOnly||isExam(l,x[0])).forEach(x=>{const ex=isExam(l,x[0]);html+=`<div class="problem ${ex?'exam':''}"><div class="phead"><div class="pnum">${l}과-${x[0]}</div>${ex?'<span class="badge red">시험출제</span>':''}</div><div class="greekbig">${x[1]}</div><div class="pron"><b>읽기:</b> ${x[2]}</div><button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">해석·해설 보기</button><div class="answerbox"><div class="trans">→ ${x[3]}</div>${x[4].length?`<ul class="analysislist">${x[4].map(n=>`<li>${n}</li>`).join('')}</ul>`:'<div class="small">교재 전체보기 항목입니다. 시험번호에서는 위·아래의 상세 해설을 집중해서 반복하세요.</div>'}</div></div>`})});document.getElementById('sentenceList').innerHTML=html} renderSentences();
+function renderSentences(){
+  let html='';
+  const lessons=currentSentenceLesson==='all'?sentenceLessons():[Number(currentSentenceLesson)];
+  lessons.forEach(l=>{
+    html+=`<h3>제${l}과 ${l%2?'홀수':'짝수'} 번호</h3>`;
+    sent[l].filter(x=>!examOnly||isExam(l,x[0])).forEach(x=>{
+      const ex=isExam(l,x[0]);
+      html+=`<div class="problem ${ex?'exam':''}"><div class="phead"><div class="pnum">${l}과-${x[0]}</div>${ex?'<span class="badge red">시험출제</span>':''}</div><div class="greekbig">${x[1]}</div><div class="pron"><b>읽기:</b> ${x[2]}</div><button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">해석·해설 보기</button><div class="answerbox"><div class="trans">→ ${x[3]}</div>${x[4].length?`<ul class="analysislist">${x[4].map(n=>`<li>${n}</li>`).join('')}</ul>`:'<div class="small">교재 전체보기 항목입니다. 시험번호에서는 위·아래의 상세 해설을 집중해서 반복하세요.</div>'}</div></div>`
+    })
+  });
+  document.getElementById('sentenceList').innerHTML=html;
+}
+renderSentenceLessonFilters();
+renderSentences();
 
 function stripGreek(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ς/g,'σ').replace(/[()\s·.,]/g,'').toLowerCase()}
 let writeQ=null;
