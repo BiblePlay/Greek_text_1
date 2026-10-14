@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <meta name="theme-color" content="#0f3d68" />
-<title>신약성서 헬라어 3–5과 시험완벽대비</title>
+<title>헬라어 시험대비</title>
 <style>
 :root{
   --bg:#f4f7fb; --paper:#fff; --ink:#16202a; --muted:#647180; --line:#dce3eb;
@@ -85,25 +85,25 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 #vocabPictureStudy[style*="display:none"]{display:none!important}
 .study-picture{width:100%;height:auto!important;max-height:none!important;object-fit:contain}
 .picture-error{padding:14px;border:1px dashed #d7a4a0;border-radius:12px;background:#fff5f4;color:#9c3b34;font-size:.9rem;text-align:center}
+
+.grammar-subtabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:10px;background:#eef3f8;border:1px solid var(--line);border-radius:14px}
+.grammar-subbtn{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:12px;padding:8px 12px;font-size:.9rem;font-weight:700;cursor:pointer}
+.grammar-subbtn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(max-width:560px){.grammar-subtabs{gap:6px}.grammar-subbtn{flex:1 1 calc(50% - 6px);padding:8px 6px;font-size:.82rem}}
+
 </style>
 </head>
 <body>
 <div class="top"><div class="topin">
-  <div class="brand"><h1>신약성서 헬라어 · 제3–5과 시험완벽대비</h1><span class="today">시험 전날 집중 모드</span></div>
+  <div class="brand"><h1>헬라어 시험대비</h1><span class="today">단어 · 연습문제 중심</span></div>
   <div class="tabs" id="tabs">
-    <button class="tabbtn active" data-page="home">시험범위</button>
-    <button class="tabbtn" data-page="alpha">읽기기초</button>
-    <button class="tabbtn" data-page="vocab">단어</button>
-    <button class="tabbtn" data-page="verb">동사어미</button>
-    <button class="tabbtn" data-page="noun">명사격변화</button>
-    <button class="tabbtn" data-page="ending">어미판별훈련</button>
-    <button class="tabbtn" data-page="sent">연습문제</button>
-    <button class="tabbtn" data-page="write">쓰기훈련</button>
-    <button class="tabbtn" data-page="quick">시험직전</button>
+    <button class="tabbtn active" data-page="vocab" data-main="vocab">단어</button>
+    <button class="tabbtn" data-page="sent" data-main="sent">연습문제</button>
+    <button class="tabbtn" data-page="alpha" data-main="grammar">문법·핵심정리</button>
   </div>
 </div></div>
 <main>
-<section class="page active" id="home">
+<section class="page" id="home">
   <div class="hero">
     <h2>사진의 큰 동그라미 범위 + 출제 규칙을 반영한 공부판</h2>
     <p><b>제3과:</b> 현재 능동태 직설법 · 동사 8개 · 6인칭 어미 · 연습 22</p>
@@ -124,18 +124,32 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 </section>
 
 <section class="page" id="alpha">
+  <div class="grammar-subtabs" aria-label="문법·핵심정리 세부 메뉴">
+    <button class="grammar-subbtn" data-subpage="alpha" onclick="openGrammarPage('alpha')">읽기기초</button>
+    <button class="grammar-subbtn" data-subpage="verb" onclick="openGrammarPage('verb')">동사어미</button>
+    <button class="grammar-subbtn" data-subpage="noun" onclick="openGrammarPage('noun')">명사격변화</button>
+    <button class="grammar-subbtn" data-subpage="ending" onclick="openGrammarPage('ending')">어미판별훈련</button>
+    <button class="grammar-subbtn" data-subpage="quick" onclick="openGrammarPage('quick')">핵심정리</button>
+  </div>
   <div class="card"><h2>헬라어 읽기 기초 — 한글 보조발음</h2><p>시험 직전 학습용 보조 표기다. 단어마다 앱 안에 한글 발음을 따로 붙였으므로 이 표를 완벽히 외우지 않아도 된다.</p><div class="alpha" id="alphaGrid"></div>
     <h3>자주 나오는 결합</h3><div class="grid3"><div class="callout"><span class="greekbig">αι</span><br><b>아이</b></div><div class="callout"><span class="greekbig">ει</span><br><b>에이</b></div><div class="callout"><span class="greekbig">οι</span><br><b>오이</b></div><div class="callout"><span class="greekbig">ου</span><br><b>우</b></div><div class="callout"><span class="greekbig">ω</span><br><b>오(길게)</b></div><div class="callout"><span class="greekbig">υ</span><br><b>위/뤼 계열</b></div></div>
   </div>
 </section>
 
-<section class="page" id="vocab">
-  <div class="card"><h2>단어 카드</h2><div class="controls"><button class="btn primary" onclick="renderVocab('all')">전체</button><button class="btn" onclick="renderVocab(3)">3과</button><button class="btn" onclick="renderVocab(4)">4과</button><button class="btn" onclick="renderVocab(5)">5과</button><button class="btn" id="pictureBookBtn" onclick="togglePictureBook()">그림단어장</button></div>
+<section class="page active" id="vocab">
+  <div class="card"><h2>단어 카드</h2><div class="controls" id="vocabFilterControls"><button class="btn primary vocab-filter-btn" data-lesson="all" onclick="renderVocab('all',this)">전체</button><button class="btn vocab-filter-btn" data-lesson="3" onclick="renderVocab(3,this)">3과</button><button class="btn vocab-filter-btn" data-lesson="4" onclick="renderVocab(4,this)">4과</button><button class="btn vocab-filter-btn" data-lesson="5" onclick="renderVocab(5,this)">5과</button><button class="btn" id="pictureBookBtn" onclick="togglePictureBook()">그림단어장</button></div>
     <div class="picture-study" id="vocabPictureStudy" style="display:none"><h3>그림 한눈에</h3><p class="picture-help">그림으로 먼저 기억한 뒤 위의 3과·4과·5과 버튼을 누르면 해당 단어카드로 바로 돌아갑니다.</p><div class="picture-tabs"><button class="picbtn active" data-vpic="3" onclick="showVocabPicture(3,this)">3과</button><button class="picbtn" data-vpic="4" onclick="showVocabPicture(4,this)">4과</button><button class="picbtn" data-vpic="5" onclick="showVocabPicture(5,this)">5과</button></div><img class="study-picture" id="vocabPicture" src="./lesson3.png" alt="제3과 단어 그림 한눈에" onerror="pictureLoadError(this,'vocabPictureError')" onload="pictureLoadOk(this,'vocabPictureError')"><div class="picture-error" id="vocabPictureError" hidden>그림 파일을 찾지 못했습니다.</div><div class="picture-caption">업로드한 원본 그림을 그대로 표시합니다.</div></div>
     <div class="flashgrid" id="vocabGrid" style="margin-top:16px"></div></div>
 </section>
 
 <section class="page" id="verb">
+  <div class="grammar-subtabs" aria-label="문법·핵심정리 세부 메뉴">
+    <button class="grammar-subbtn" data-subpage="alpha" onclick="openGrammarPage('alpha')">읽기기초</button>
+    <button class="grammar-subbtn" data-subpage="verb" onclick="openGrammarPage('verb')">동사어미</button>
+    <button class="grammar-subbtn" data-subpage="noun" onclick="openGrammarPage('noun')">명사격변화</button>
+    <button class="grammar-subbtn" data-subpage="ending" onclick="openGrammarPage('ending')">어미판별훈련</button>
+    <button class="grammar-subbtn" data-subpage="quick" onclick="openGrammarPage('quick')">핵심정리</button>
+  </div>
   <div class="card"><h2>제3과 — 현재 능동태 직설법</h2>
     <div class="callout red"><b>시험용 핵심:</b> 동사는 <b>맨 끝 어미</b>가 인칭과 수를 알려준다. 먼저 끝을 보고 “누가 하는가”를 판단한다.</div>
     <div class="tablewrap"><table class="endtable"><tr><th>인칭</th><th>대표형</th><th>어미</th><th>한글 읽기</th><th>뜻</th></tr>
@@ -153,6 +167,13 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 </section>
 
 <section class="page" id="noun">
+  <div class="grammar-subtabs" aria-label="문법·핵심정리 세부 메뉴">
+    <button class="grammar-subbtn" data-subpage="alpha" onclick="openGrammarPage('alpha')">읽기기초</button>
+    <button class="grammar-subbtn" data-subpage="verb" onclick="openGrammarPage('verb')">동사어미</button>
+    <button class="grammar-subbtn" data-subpage="noun" onclick="openGrammarPage('noun')">명사격변화</button>
+    <button class="grammar-subbtn" data-subpage="ending" onclick="openGrammarPage('ending')">어미판별훈련</button>
+    <button class="grammar-subbtn" data-subpage="quick" onclick="openGrammarPage('quick')">핵심정리</button>
+  </div>
   <div class="card"><h2>격부터 이해하기</h2><div class="grid3">
     <div class="callout"><b>N 주격</b><br>~이/가, ~은/는</div><div class="callout"><b>G 속격</b><br>~의</div><div class="callout"><b>D 여격</b><br>~에게, ~로</div><div class="callout"><b>A 목적격</b><br>~을/를</div><div class="callout"><b>V 호격</b><br>~아, ~여</div></div>
     <div class="callout red"><b>판별 순서:</b> ① 단어 끝 보기 → ② 단수/복수 후보 찾기 → ③ 성과 변화형 확인 → ④ 문장에서 주어·소유·간접목적어·목적어 역할 확인.</div>
@@ -167,6 +188,13 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 </section>
 
 <section class="page" id="ending">
+  <div class="grammar-subtabs" aria-label="문법·핵심정리 세부 메뉴">
+    <button class="grammar-subbtn" data-subpage="alpha" onclick="openGrammarPage('alpha')">읽기기초</button>
+    <button class="grammar-subbtn" data-subpage="verb" onclick="openGrammarPage('verb')">동사어미</button>
+    <button class="grammar-subbtn" data-subpage="noun" onclick="openGrammarPage('noun')">명사격변화</button>
+    <button class="grammar-subbtn" data-subpage="ending" onclick="openGrammarPage('ending')">어미판별훈련</button>
+    <button class="grammar-subbtn" data-subpage="quick" onclick="openGrammarPage('quick')">핵심정리</button>
+  </div>
   <div class="card"><h2>끝만 보고 맞히는 어미 판별 훈련</h2><p>단어 뜻을 몰라도 <b>빨간 끝부분</b>만 보고 형태를 먼저 찾는 연습이다.</p><div class="controls"><button class="btn primary" onclick="newEndingQ()">새 문제</button><button class="btn" onclick="showEndingAnswer()">정답 보기</button></div><div class="quizbox" id="endingQuiz"></div></div>
   <div class="card"><h2>어미 도표 — 한글 읽기까지</h2><div id="endingCharts"></div></div>
 </section>
@@ -184,13 +212,19 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 </section>
 
 <section class="page" id="quick">
-  <div class="hero"><h2>시험장 들어가기 전 마지막 화면</h2><p>아래 5줄은 눈으로만 보지 말고 <b>소리 내서 읽고 손으로 3번</b> 써본다.</p></div>
+  <div class="grammar-subtabs" aria-label="문법·핵심정리 세부 메뉴">
+    <button class="grammar-subbtn" data-subpage="alpha" onclick="openGrammarPage('alpha')">읽기기초</button>
+    <button class="grammar-subbtn" data-subpage="verb" onclick="openGrammarPage('verb')">동사어미</button>
+    <button class="grammar-subbtn" data-subpage="noun" onclick="openGrammarPage('noun')">명사격변화</button>
+    <button class="grammar-subbtn" data-subpage="ending" onclick="openGrammarPage('ending')">어미판별훈련</button>
+    <button class="grammar-subbtn" data-subpage="quick" onclick="openGrammarPage('quick')">핵심정리</button>
+  </div>
+  <div class="hero"><h2>핵심정리</h2><p>현재 범위에서 <b>한눈에 알아야 할 핵심 형태</b>를 빠르게 복습하는 곳입니다. 범위가 늘어나면 핵심 내용도 계속 추가할 수 있습니다.</p></div>
   <div class="card"><h2>1. 동사 현재 능동 직설법</h2><div class="quickline"><span class="ending">ω</span> · <span class="ending">εις</span> · <span class="ending">ει</span> / <span class="ending">ομεν</span> · <span class="ending">ετε</span> · <span class="ending">ουσι(ν)</span><br><span style="font-family:inherit;font-size:.9rem">오 · 에이스 · 에이 / 오멘 · 에테 · 우시(ㄴ)</span></div></div>
   <div class="card"><h2>2. 제2변화 남성</h2><div class="quickline"><span class="ending">ος</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> · <span class="ending">ε</span> / <span class="ending">οι</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">ους</span><br><span style="font-family:inherit;font-size:.9rem">오스 · 우 · 오 · 온 · 에 / 오이 · 온 · 오이스 · 우스</span></div></div>
   <div class="card"><h2>3. 제2변화 중성</h2><div class="quickline"><span class="ending">ον</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> / <span class="ending">α</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">α</span><br><span style="font-family:inherit;font-size:.9rem">온 · 우 · 오 · 온 / 아 · 온 · 오이스 · 아</span></div></div>
   <div class="card"><h2>4. 제1변화 여성 α형</h2><div class="quickline"><span class="ending">α</span> · <span class="ending">ας</span> · <span class="ending">ᾳ</span> · <span class="ending">αν</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">아 · 아스 · 아 · 안 / 아이 · 온 · 아이스 · 아스</span></div></div>
   <div class="card"><h2>5. 제1변화 여성 η형</h2><div class="quickline"><span class="ending">η</span> · <span class="ending">ης</span> · <span class="ending">ῃ</span> · <span class="ending">ην</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">에 · 에스 · 에 · 엔 / 아이 · 온 · 아이스 · 아스</span></div></div>
-  <div class="card"><h2>출제번호</h2><div class="callout red"><b>3과:</b> 1·3·5·7·9<br><b>4과:</b> 2·4·6·8·10·12·14·16·18·20<br><b>5과:</b> 1·3·5·7·9·11·13·15·17</div></div>
 </section>
 
 <div class="study-modal" id="vocabNoteModal" aria-hidden="true"><div class="study-sheet" role="dialog" aria-modal="true" aria-labelledby="vocabNoteTitle"><div class="study-head"><div><h2 class="study-title" id="vocabNoteTitle">단어 상세</h2><div class="small" id="vocabNoteSub"></div></div><button class="study-close" type="button" onclick="closeVocabNote()" aria-label="닫기">×</button></div><div class="study-body" id="vocabNoteBody"></div></div></div>
@@ -206,7 +240,18 @@ const vocab=[
 {l:5,g:'ἀλήθεια',p:'알레테이아',m:'진리, 참',x:'여성'},{l:5,g:'βασιλεία',p:'바실레이아',m:'왕국, 나라, 주권',x:'여성'},{l:5,g:'γραφή',p:'그라페',m:'문서, 성경',x:'여성'},{l:5,g:'δόξα',p:'독사',m:'영광',x:'여성'},{l:5,g:'εἰρήνη',p:'에이레네',m:'평화, 평강',x:'여성'},{l:5,g:'ἐκκλησία',p:'에클레시아',m:'교회',x:'여성'},{l:5,g:'ἐντολή',p:'엔톨레',m:'계명',x:'여성'},{l:5,g:'ζωή',p:'조에',m:'생명',x:'여성'},{l:5,g:'ἡμέρα',p:'헤메라',m:'날',x:'여성'},{l:5,g:'καρδία',p:'카르디아',m:'마음',x:'여성'},{l:5,g:'παραβολή',p:'파라볼레',m:'비유',x:'여성'},{l:5,g:'φωνή',p:'포네',m:'음성, 소리',x:'여성'},{l:5,g:'ψυχή',p:'프쉬케',m:'혼, 목숨',x:'여성'},{l:5,g:'ὥρα',p:'호라',m:'시간',x:'여성'}
 ];
 function noteIconSVG(){return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="3.5" width="15" height="17" rx="2"></rect><line x1="8.5" y1="3.5" x2="8.5" y2="20.5"></line><line x1="12" y1="8" x2="16" y2="8"></line><line x1="12" y1="12" x2="16" y2="12"></line><line x1="12" y1="16" x2="15" y2="16"></line></svg>`}
-function renderVocab(lesson='all'){closePictureBook();const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);const grid=document.getElementById('vocabGrid');grid.style.display='grid';grid.innerHTML=a.map(v=>{const idx=vocab.indexOf(v);return `<div class="flash" onclick="this.classList.toggle('open')"><button class="card-note-btn" type="button" aria-label="${v.g} 상세 노트" title="상세 노트" onclick="event.stopPropagation();openVocabNote(${idx})">${noteIconSVG()}</button><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`}).join('')}
+let currentVocabLesson='all';
+function setVocabFilterActive(lesson){
+  document.querySelectorAll('.vocab-filter-btn').forEach(b=>b.classList.toggle('primary',String(b.dataset.lesson)===String(lesson)));
+}
+function renderVocab(lesson='all',clickedBtn=null){
+  currentVocabLesson=String(lesson);
+  closePictureBook();
+  setVocabFilterActive(currentVocabLesson);
+  const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);
+  const grid=document.getElementById('vocabGrid');grid.style.display='grid';
+  grid.innerHTML=a.map(v=>{const idx=vocab.indexOf(v);return `<div class="flash" onclick="this.classList.toggle('open')"><button class="card-note-btn" type="button" aria-label="${v.g} 상세 노트" title="상세 노트" onclick="event.stopPropagation();openVocabNote(${idx})">${noteIconSVG()}</button><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`}).join('')
+}
 function closeAllFlash(){document.querySelectorAll('.flash').forEach(x=>x.classList.remove('open'))} renderVocab();
 
 const verbBases=[
@@ -387,7 +432,30 @@ function newWriteQ(){const t=document.getElementById('writeType').value;let pool
 function checkWrite(){const v=document.getElementById('writeInput').value.trim(),fb=document.getElementById('writeFb');if(v===writeQ.a){fb.innerHTML=`<span style="color:var(--green)">완벽합니다.</span> ${writeQ.a} · ${writeQ.h}`;return}if(stripGreek(v)===stripGreek(writeQ.a)){fb.innerHTML=`<span style="color:var(--amber)">기본 철자는 맞습니다.</span> 악센트/숨표/기호까지 확인: <span class="greek">${writeQ.a}</span> (${writeQ.h})`;return}fb.innerHTML=`<span style="color:var(--red)">다시 확인.</span> 정답은 아직 숨겨두었습니다.`}
 function showWrite(){document.getElementById('writeFb').innerHTML=`정답: <span class="greekbig">${writeQ.a}</span> · ${writeQ.h}`} newWriteQ();
 
-document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tabbtn');if(!b)return;document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.page).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})});
+function showPage(pageId){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  const page=document.getElementById(pageId); if(page)page.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setMainTab(main){
+  document.querySelectorAll('.tabbtn').forEach(x=>x.classList.toggle('active',x.dataset.main===main));
+}
+function syncGrammarSubtabs(pageId){
+  document.querySelectorAll('.grammar-subbtn').forEach(x=>x.classList.toggle('active',x.dataset.subpage===pageId));
+}
+function openGrammarPage(pageId){
+  setMainTab('grammar');
+  syncGrammarSubtabs(pageId);
+  showPage(pageId);
+}
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tabbtn');if(!b)return;
+  const main=b.dataset.main;
+  setMainTab(main);
+  if(main==='grammar'){syncGrammarSubtabs('alpha');showPage('alpha');}
+  else{showPage(b.dataset.page);}
+});
+syncGrammarSubtabs('alpha');
 
 function closePictureBook(){
   const box=document.getElementById('vocabPictureStudy');
@@ -396,6 +464,7 @@ function closePictureBook(){
   if(box)box.style.display='none';
   if(btn)btn.classList.remove('primary');
   if(grid)grid.style.display='grid';
+  setVocabFilterActive(currentVocabLesson);
 }
 function togglePictureBook(){
   const box=document.getElementById('vocabPictureStudy');
@@ -406,7 +475,12 @@ function togglePictureBook(){
   box.style.display=willOpen?'block':'none';
   if(btn)btn.classList.toggle('primary',willOpen);
   if(grid)grid.style.display=willOpen?'none':'grid';
-  if(willOpen){ setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),30); }
+  if(willOpen){
+    document.querySelectorAll('.vocab-filter-btn').forEach(b=>b.classList.remove('primary'));
+    setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),30);
+  }else{
+    setVocabFilterActive(currentVocabLesson);
+  }
 }
 function pictureLoadError(img,errorId){
   img.style.display='none';
