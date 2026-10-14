@@ -83,6 +83,12 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 .form-table td:nth-child(2){font-family:"Times New Roman","Noto Serif",serif;font-size:1.13rem}
 .form-table .stempart{color:#222;font-weight:700}.form-table .endpart{color:var(--red);font-weight:900}
 .study-tip{margin-top:12px;padding:11px 12px;border-radius:12px;background:var(--amber2);border-left:4px solid #d18b00;font-size:.92rem}
+/* 제6과 형용사 카드/상세보기 전용 */
+.adj-card-compare{display:grid;gap:3px;margin-bottom:5px}.adj-card-compare .greek{display:block;font-size:1.05rem;line-height:1.25}.adj-card-compare small{display:block;color:var(--muted);font-size:.72rem;line-height:1.25}.adj-card-compare .endpart,.adj-threeform .endpart,.study-tip .endpart{color:var(--red);font-weight:900}
+.adj-threeforms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0 14px}.adj-threeform{border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:9px 7px;text-align:center}.adj-threeform small{display:block;color:var(--muted);font-size:.74rem;margin-bottom:3px}.adj-threeform .greek{font-size:1.17rem}.adj-threeform .pron-mini{display:block;color:#4c5865;font-size:.78rem;margin-top:3px}
+.adj-gender-block{margin:12px 0 15px}.adj-gender-title{margin:0 0 7px;font-size:1rem;color:var(--navy)}.adj-paradigm-table th,.adj-paradigm-table td{text-align:center;vertical-align:middle}.adj-paradigm-table td:first-child{font-weight:800;white-space:nowrap}.adj-formcell .greek{display:block;font-size:1.08rem}.adj-formcell small{display:block;color:var(--muted);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;font-size:.76rem;margin-top:2px}.adj-function{font-size:.78rem;color:#4c5865;min-width:84px}
+@media(max-width:600px){.adj-threeforms{gap:5px}.adj-threeform{padding:8px 5px}.adj-threeform .greek{font-size:1rem}.adj-threeform .pron-mini{font-size:.7rem}.adj-paradigm-table th,.adj-paradigm-table td{padding:7px 5px}.adj-function{font-size:.7rem;min-width:72px}}
+
 @media(max-width:600px){.study-modal{padding:0;align-items:flex-end}.study-sheet{max-height:91vh;border-radius:18px 18px 0 0}.study-summary{grid-template-columns:1fr 1fr}.card-note-btn{width:27px;height:27px;right:6px;top:6px}.picture-tabs{gap:6px}.picbtn{font-size:.83rem;padding:7px 9px}}
 
 
@@ -370,13 +376,26 @@ let currentVocabLesson='all';
 function setVocabFilterActive(lesson){
   document.querySelectorAll('.vocab-filter-btn').forEach(b=>b.classList.toggle('primary',String(b.dataset.lesson)===String(lesson)));
 }
+
+function isLesson6Adjective(v){return v&&v.l===6&&String(v.x||'').includes('형용사')}
+function lesson6AdjRepresentative(v){return String(v.g).split(',')[0].trim()}
+function lesson6AdjRepresentativePron(v){return String(v.p).split(',')[0].trim()}
+function colorAdjLemmaForm(form,genderIndex){
+  let re=genderIndex===0?/(ός|ος)$/:(genderIndex===1?/([ήηάα])$/:/(όν|ον|ο)$/);
+  const m=String(form).match(re); if(!m)return `<span class="stempart">${form}</span>`;
+  return `<span class="stempart">${form.slice(0,-m[0].length)}</span><span class="endpart">${m[0]}</span>`;
+}
+function lesson6AdjCardBack(v){
+  const forms=String(v.g).split(',').map(x=>x.trim()), prons=String(v.p).split(',').map(x=>x.trim()), sex=['남성','여성','중성'];
+  return `<div class="adj-card-compare">${forms.map((f,i)=>`<div><span class="greek">${colorAdjLemmaForm(f,i)}</span><small>${sex[i]} · ${prons[i]||''}</small></div>`).join('')}</div><b>${v.m}</b><br><span class="small">${v.x||''}</span>`;
+}
 function renderVocab(lesson='all',clickedBtn=null){
   currentVocabLesson=String(lesson);
   closePictureBook();
   setVocabFilterActive(currentVocabLesson);
   const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);
   const grid=document.getElementById('vocabGrid');grid.style.display='grid';
-  grid.innerHTML=a.map(v=>{const idx=vocab.indexOf(v);return `<div class="flash" onclick="this.classList.toggle('open')"><button class="card-note-btn" type="button" aria-label="${v.g} 상세 노트" title="상세 노트" onclick="event.stopPropagation();openVocabNote(${idx})">${noteIconSVG()}</button><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`}).join('')
+  grid.innerHTML=a.map(v=>{const idx=vocab.indexOf(v);const isAdj6=isLesson6Adjective(v);const frontGreek=isAdj6?lesson6AdjRepresentative(v):v.g;const backHTML=isAdj6?lesson6AdjCardBack(v):`<b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}`;return `<div class="flash" onclick="this.classList.toggle('open')"><button class="card-note-btn" type="button" aria-label="${frontGreek} 상세 노트" title="상세 노트" onclick="event.stopPropagation();openVocabNote(${idx})">${noteIconSVG()}</button><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${frontGreek}</div></div><div class="back">${backHTML}</div></div>`}).join('')
 }
 function closeAllFlash(){document.querySelectorAll('.flash').forEach(x=>x.classList.remove('open'))} renderVocab();
 
@@ -480,9 +499,59 @@ const nounDetails={
 const verbGloss={'βλέπω':'본다','γινώσκω':'안다','γράφω':'쓴다','διδάσκω':'가르친다','λαμβάνω':'받는다/취한다','λέγω':'말한다','λύω':'푼다','ἔχω':'가진다'};
 function splitColored(s){const a=s.split('|');return `<span class="stempart">${a[0]}</span><span class="endpart">${a[1]||''}</span>`}
 
+// ===== 제6과 형용사 상세 변화 =====
+const adjectiveCaseRows=[['주격','~이/가, ~은/는'],['속격','~의'],['여격','~에게, ~로'],['목적격','~을/를'],['호격','~아, ~여']];
+const adjPronSuffix={
+  t:{mS:['토스','투','토','톤','테'],mP:['토이','톤','토이스','투스','토이'],eS:['테','테스','테','텐','테'],eP:['타이','톤','타이스','타스','타이'],aS:['타','타스','타','탄','타'],aP:['타이','톤','타이스','타스','타이'],nS:['톤','투','토','톤','톤'],nP:['타','톤','토이스','타','타']},
+  l:{mS:['로스','루','로','론','레'],mP:['로이','론','로이스','루스','로이'],eS:['레','레스','레','렌','레'],eP:['라이','론','라이스','라스','라이'],aS:['라','라스','라','란','라'],aP:['라이','론','라이스','라스','라이'],nS:['론','루','로','론','론'],nP:['라','론','로이스','라','라'],nShortS:['로','루','로','로','로']},
+  k:{mS:['코스','쿠','코','콘','케'],mP:['코이','콘','코이스','쿠스','코이'],eS:['케','케스','케','켄','케'],eP:['카이','콘','카이스','카스','카이'],aS:['카','카스','카','칸','카'],aP:['카이','콘','카이스','카스','카이'],nS:['콘','쿠','코','콘','콘'],nP:['카','콘','코이스','카','카']},
+  r:{mS:['로스','루','로','론','레'],mP:['로이','론','로이스','루스','로이'],eS:['레','레스','레','렌','레'],eP:['라이','론','라이스','라스','라이'],aS:['라','라스','라','란','라'],aP:['라이','론','라이스','라스','라이'],nS:['론','루','로','론','론'],nP:['라','론','로이스','라','라']},
+  v:{mS:['오스','우','오','온','에'],mP:['오이','온','오이스','우스','오이'],eS:['에','에스','에','엔','에'],eP:['아이','온','아이스','아스','아이'],aS:['아','아스','아','안','아'],aP:['아이','온','아이스','아스','아이'],nS:['온','우','오','온','온'],nP:['아','온','오이스','아','아']}
+};
+function oxyAdjRows(stem,femClass){
+  const mS=['ός','οῦ','ῷ','όν','έ'],mP=['οί','ῶν','οῖς','ούς','οί'];
+  const fS=femClass==='alpha'?['ά','ᾶς','ᾷ','άν','ά']:['ή','ῆς','ῇ','ήν','ή'];
+  const fP=['αί','ῶν','αῖς','άς','αί'];
+  const nS=['όν','οῦ','ῷ','όν','όν'],nP=['ά','ῶν','οῖς','ά','ά'];
+  const mk=(a,b)=>a.map((x,i)=>[`${stem}|${x}`,`${stem}|${b[i]}`]);
+  return {m:mk(mS,mP),f:mk(fS,fP),n:mk(nS,nP)};
+}
+const adjectiveDetails={
+  'ἀγαθός':{stem:'ἀγαθ-',fem:'η형',kind:'t',kp:'아가',rows:oxyAdjRows('ἀγαθ','eta')},
+  'ἄλλος':{stem:'ἀλλ-',fem:'η형',kind:'l',kp:'알',neutShort:true,special:'[암기] ἄλλος의 중성 주격·목적격·호격 단수는 ἄλλο입니다.',rows:{m:[['ἄλλ|ος','ἄλλ|οι'],['ἄλλ|ου','ἄλλ|ων'],['ἄλλ|ῳ','ἄλλ|οις'],['ἄλλ|ον','ἄλλ|ους'],['ἄλλ|ε','ἄλλ|οι']],f:[['ἄλλ|η','ἄλλ|αι'],['ἄλλ|ης','ἄλλ|ων'],['ἄλλ|ῃ','ἄλλ|αις'],['ἄλλ|ην','ἄλλ|ας'],['ἄλλ|η','ἄλλ|αι']],n:[['ἄλλ|ο','ἄλλ|α'],['ἄλλ|ου','ἄλλ|ων'],['ἄλλ|ῳ','ἄλλ|οις'],['ἄλλ|ο','ἄλλ|α'],['ἄλλ|ο','ἄλλ|α']]}},
+  'δίκαιος':{stem:'δικαι-',fem:'α형',kind:'v',kp:'디카이',rows:{m:[['δίκαι|ος','δίκαι|οι'],['δικαί|ου','δικαί|ων'],['δικαί|ῳ','δικαί|οις'],['δίκαι|ον','δικαί|ους'],['δίκαι|ε','δίκαι|οι']],f:[['δικαί|α','δίκαι|αι'],['δικαί|ας','δικαί|ων'],['δικαί|ᾳ','δικαί|αις'],['δικαί|αν','δικαί|ας'],['δικαί|α','δίκαι|αι']],n:[['δίκαι|ον','δίκαι|α'],['δικαί|ου','δικαί|ων'],['δικαί|ῳ','δικαί|οις'],['δίκαι|ον','δίκαι|α'],['δίκαι|ον','δίκαι|α']]}},
+  'ἔσχατος':{stem:'ἐσχατ-',fem:'η형',kind:'t',kp:'에스카',rows:{m:[['ἔσχατ|ος','ἔσχατ|οι'],['ἐσχάτ|ου','ἐσχάτ|ων'],['ἐσχάτ|ῳ','ἐσχάτ|οις'],['ἔσχατ|ον','ἐσχάτ|ους'],['ἔσχατ|ε','ἔσχατ|οι']],f:[['ἐσχάτ|η','ἔσχατ|αι'],['ἐσχάτ|ης','ἐσχάτ|ων'],['ἐσχάτ|ῃ','ἐσχάτ|αις'],['ἐσχάτ|ην','ἐσχάτ|ας'],['ἐσχάτ|η','ἔσχατ|αι']],n:[['ἔσχατ|ον','ἔσχατ|α'],['ἐσχάτ|ου','ἐσχάτ|ων'],['ἐσχάτ|ῳ','ἐσχάτ|οις'],['ἔσχατ|ον','ἔσχατ|α'],['ἔσχατ|ον','ἔσχατ|α']]}},
+  'κακός':{stem:'κακ-',fem:'η형',kind:'k',kp:'카',rows:oxyAdjRows('κακ','eta')},
+  'καλός':{stem:'καλ-',fem:'η형',kind:'l',kp:'칼',rows:oxyAdjRows('καλ','eta')},
+  'μικρός':{stem:'μικρ-',fem:'α형',kind:'r',kp:'미크',rows:oxyAdjRows('μικρ','alpha')},
+  'νεκρός':{stem:'νεκρ-',fem:'α형',kind:'r',kp:'네크',rows:oxyAdjRows('νεκρ','alpha')},
+  'πιστός':{stem:'πιστ-',fem:'η형',kind:'t',kp:'피스',rows:oxyAdjRows('πιστ','eta')},
+  'πρῶτος':{stem:'πρωτ-',fem:'η형',kind:'t',kp:'프로',rows:{m:[['πρῶτ|ος','πρῶτ|οι'],['πρώτ|ου','πρώτ|ων'],['πρώτ|ῳ','πρώτ|οις'],['πρῶτ|ον','πρώτ|ους'],['πρῶτ|ε','πρῶτ|οι']],f:[['πρώτ|η','πρῶτ|αι'],['πρώτ|ης','πρώτ|ων'],['πρώτ|ῃ','πρώτ|αις'],['πρώτ|ην','πρώτ|ας'],['πρώτ|η','πρῶτ|αι']],n:[['πρῶτ|ον','πρῶτ|α'],['πρώτ|ου','πρώτ|ων'],['πρώτ|ῳ','πρώτ|οις'],['πρῶτ|ον','πρῶτ|α'],['πρῶτ|ον','πρῶτ|α']]}}
+};
+function adjPronRows(d,gender){
+  const P=adjPronSuffix[d.kind], cls=d.fem==='α형'?'a':'e';
+  let sg,pl;if(gender==='m'){sg=P.mS;pl=P.mP}else if(gender==='f'){sg=P[cls+'S'];pl=P[cls+'P']}else{sg=d.neutShort&&P.nShortS?P.nShortS:P.nS;pl=P.nP}
+  return sg.map((x,i)=>[d.kp+x,d.kp+pl[i]]);
+}
+function renderAdjGenderTable(label,rows,pronRows){
+  return `<div class="adj-gender-block"><h4 class="adj-gender-title">${label}</h4><div class="tablewrap"><table class="tight form-table adj-paradigm-table"><tr><th>격</th><th>단수</th><th>복수</th><th>기능</th></tr>${rows.map((r,i)=>`<tr><td>${adjectiveCaseRows[i][0]}</td><td class="adj-formcell">${splitColored(r[0])}<small>${pronRows[i][0]}</small></td><td class="adj-formcell">${splitColored(r[1])}<small>${pronRows[i][1]}</small></td><td class="adj-function">${adjectiveCaseRows[i][1]}</td></tr>`).join('')}</table></div></div>`;
+}
+function renderLesson6AdjectiveNote(v){
+  const key=lesson6AdjRepresentative(v),d=adjectiveDetails[key];if(!d)return `<div class="callout red">이 형용사의 상세 변화형 데이터가 없습니다.</div>`;
+  const forms=String(v.g).split(',').map(x=>x.trim()),prons=String(v.p).split(',').map(x=>x.trim()),sex=['남성','여성','중성'];
+  let h=`<div class="study-summary"><div class="study-chip"><small>대표형</small><b class="greek">${key}</b></div><div class="study-chip"><small>발음</small><b>${lesson6AdjRepresentativePron(v)}</b></div><div class="study-chip"><small>품사/변화</small><b>형용사 · 제1·2변화 (${d.fem})</b></div><div class="study-chip"><small>어간</small><b class="greek">${d.stem}</b></div></div>`;
+  h+=`<div class="callout"><b>뜻:</b> ${v.m}</div><h4 style="margin:13px 0 6px">남성 · 여성 · 중성 기본형 비교</h4><div class="adj-threeforms">${forms.map((f,i)=>`<div class="adj-threeform"><small>${sex[i]}</small><span class="greek">${colorAdjLemmaForm(f,i)}</span><span class="pron-mini">${prons[i]||''}</span></div>`).join('')}</div>`;
+  h+=renderAdjGenderTable('남성 변화',d.rows.m,adjPronRows(d,'m'))+renderAdjGenderTable('여성 변화',d.rows.f,adjPronRows(d,'f'))+renderAdjGenderTable('중성 변화',d.rows.n,adjPronRows(d,'n'));
+  if(d.special)h+=`<div class="callout red"><b>${d.special}</b></div>`;
+  h+=`<div class="callout"><b>문법 요약:</b> 형용사 · 제1·2변화 · 남/여/중 변화 · 성·수·격 일치<br><b>형용사는 수식하는 명사와 성·수·격이 일치한다.</b></div>`;
+  h+=`<div class="study-tip"><b>시험에서 찾는 법:</b><br>1. 먼저 <span class="endpart">빨간 어미</span>를 본다.<br>2. 어미로 성·수·격 후보를 잡는다.<br>3. 문장에서 어떤 명사를 수식하는지 찾는다.<br>4. 그 명사와 성·수·격이 일치하는지 확인한다.</div>`;
+  return h;
+}
+
 // ===== 제6·7·8과 단어 상세 노트 =====
 function renderExtraVocabNote(v){
   const isPrep=v.x==='전치사', isAdj=v.x?.includes('형용사'), isVerb=v.x?.startsWith('동사'), isPron=v.x?.includes('대명사');
+  if(v.l===6&&isAdj)return renderLesson6AdjectiveNote(v);
   let h=`<div class="study-summary"><div class="study-chip"><small>교재 기본형</small><b class="greek">${v.g}</b></div><div class="study-chip"><small>발음</small><b>${v.p}</b></div><div class="study-chip"><small>품사/유형</small><b>${v.x||''}</b></div><div class="study-chip"><small>뜻</small><b>${v.m}</b></div></div>`;
   if(isAdj)h+=`<div class="callout"><b>제6과 핵심:</b> 형용사는 수식하는 명사와 <b>성 · 수 · 격</b>이 일치합니다. 남·여·중 기본형을 한 묶음으로 익히세요.</div><div class="study-tip">핵심정리의 <b>ἀγαθός 변화표 / 형용적·서술적·명사적 용법</b>과 함께 보면 좋습니다.</div>`;
   else if(isPrep)h+=`<div class="callout red"><b>전치사 + 지배격:</b> ${v.m}</div><div class="study-tip"><b>시험에서 찾는 법:</b> 전치사만 보지 말고 바로 뒤 명사의 격을 확인하세요. διά와 μετά는 지배격에 따라 뜻이 달라집니다.</div>`;
@@ -495,7 +564,7 @@ function renderExtraVocabNote(v){
   return h;
 }
 
-function openVocabNote(i){const v=vocab[i],modal=document.getElementById('vocabNoteModal');document.getElementById('vocabNoteTitle').innerHTML=`<span class="greek">${v.g}</span> · ${v.p}`;document.getElementById('vocabNoteSub').textContent=`${v.l}과 · ${v.m}`;let h=''; if(v.l>=6){h=renderExtraVocabNote(v);document.getElementById('vocabNoteBody').innerHTML=h;modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';return;}
+function openVocabNote(i){const v=vocab[i],modal=document.getElementById('vocabNoteModal');const noteG=isLesson6Adjective(v)?lesson6AdjRepresentative(v):v.g,noteP=isLesson6Adjective(v)?lesson6AdjRepresentativePron(v):v.p;document.getElementById('vocabNoteTitle').innerHTML=`<span class="greek">${noteG}</span> · ${noteP}`;document.getElementById('vocabNoteSub').textContent=`${v.l}과 · ${v.m}`;let h=''; if(v.l>=6){h=renderExtraVocabNote(v);document.getElementById('vocabNoteBody').innerHTML=h;modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';return;}
  const vb=verbBases.find(x=>x.g===v.g);
  if(vb){h+=`<div class="study-summary"><div class="study-chip"><small>기본형</small><b class="greek">${v.g}</b></div><div class="study-chip"><small>품사</small><b>동사</b></div><div class="study-chip"><small>어간</small><b class="greek">${vb.stem}-</b></div><div class="study-chip"><small>현재 범위</small><b>현재 능동태 직설법</b></div></div>`;
  h+=`<div class="tablewrap"><table class="tight form-table"><tr><th>인칭</th><th>실제 형태</th><th>발음</th><th>뜻</th></tr>${vb.forms.map((f,j)=>{const end=vend[j],stem=f[0].endsWith(end)?f[0].slice(0,-end.length):f[0];const who=['내가','네가','그/그녀가','우리가','너희가','그들이'][j];return `<tr><td>${person[j]}</td><td>${f[0].endsWith(end)?`<span class="stempart">${stem}</span><span class="endpart">${end}</span>`:f[0]}</td><td>${f[1]}</td><td>${who} ${verbGloss[v.g]}</td></tr>`}).join('')}</table></div><div class="study-tip"><b>시험에서 찾는 법:</b> 단어의 맨 끝 빨간 어미를 먼저 보세요. <span class="greek">-ω / -εις / -ει / -ομεν / -ετε / -ουσι(ν)</span>가 인칭과 수를 알려줍니다.</div>`;
