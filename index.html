@@ -51,6 +51,35 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 @media(max-width:900px){body{font-size:17px}.grid2,.grid3{grid-template-columns:1fr}.flashgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.alpha{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){body{font-size:17px;line-height:1.58}.brand{align-items:flex-start}.brand h1{font-size:1.08rem}.today{display:none}.topin{padding:9px 10px}main{padding:12px 10px 72px}.hero,.card{padding:14px;border-radius:15px}.hero h2{font-size:1.25rem}.flashgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.flash{min-height:112px;padding:9px}.alpha{grid-template-columns:repeat(3,minmax(0,1fr))}.choices{grid-template-columns:1fr}.greekbig{font-size:1.43rem}th,td{padding:9px 8px}.tabbtn{font-size:.86rem;padding:7px 10px}}
 @media print{.top,.controls,.btn{display:none!important}.page{display:block!important}.card,.hero{box-shadow:none;break-inside:avoid}body{background:#fff;font-size:12pt}main{max-width:none}}
+
+/* ===== 1차 보존 확장: 그림학습 + 단어 노트 ===== */
+.picture-study{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.picture-study h3{margin:0 0 7px;font-size:1.08rem;color:var(--navy)}
+.picture-study .picture-help{font-size:.86rem;color:var(--muted);margin:0 0 9px}
+.picture-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 11px}
+.picbtn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;cursor:pointer;font-size:.88rem}
+.picbtn.active{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:800}
+.study-picture{width:100%;display:block;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 5px 18px rgba(25,45,70,.07)}
+.picture-caption{font-size:.79rem;color:var(--muted);margin-top:6px;text-align:center}
+.flash{position:relative}
+.card-note-btn{position:absolute;right:7px;top:7px;z-index:8;width:28px;height:28px;padding:0;border:1px solid #cad6e1;background:rgba(255,255,255,.94);border-radius:9px;color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 7px rgba(20,45,70,.08)}
+.card-note-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
+.card-note-btn:active{transform:scale(.95)}
+.study-modal{position:fixed;inset:0;background:rgba(9,23,38,.47);z-index:250;display:none;align-items:flex-end;justify-content:center;padding:12px}
+.study-modal.show{display:flex}
+.study-sheet{width:min(760px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:20px 20px 14px 14px;box-shadow:0 18px 60px rgba(0,0,0,.23)}
+.study-head{position:sticky;top:0;z-index:2;background:#fff;border-bottom:1px solid var(--line);padding:14px 16px 11px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.study-title{margin:0;font-size:1.25rem;color:var(--navy)}
+.study-close{border:1px solid var(--line);background:#fff;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:1.15rem}
+.study-body{padding:14px 16px 20px}
+.study-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.study-chip{background:#f5f8fc;border:1px solid var(--line);border-radius:12px;padding:9px 10px}
+.study-chip small{display:block;color:var(--muted);font-size:.76rem}.study-chip b{font-size:.94rem}
+.form-table td:nth-child(2){font-family:"Times New Roman","Noto Serif",serif;font-size:1.13rem}
+.form-table .stempart{color:#222;font-weight:700}.form-table .endpart{color:var(--red);font-weight:900}
+.study-tip{margin-top:12px;padding:11px 12px;border-radius:12px;background:var(--amber2);border-left:4px solid #d18b00;font-size:.92rem}
+@media(max-width:600px){.study-modal{padding:0;align-items:flex-end}.study-sheet{max-height:91vh;border-radius:18px 18px 0 0}.study-summary{grid-template-columns:1fr 1fr}.card-note-btn{width:27px;height:27px;right:6px;top:6px}.picture-tabs{gap:6px}.picbtn{font-size:.83rem;padding:7px 9px}}
+
 </style>
 </head>
 <body>
@@ -96,7 +125,9 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 </section>
 
 <section class="page" id="vocab">
-  <div class="card"><h2>단어 카드</h2><div class="controls"><button class="btn primary" onclick="renderVocab('all')">전체</button><button class="btn" onclick="renderVocab(3)">3과</button><button class="btn" onclick="renderVocab(4)">4과</button><button class="btn" onclick="renderVocab(5)">5과</button><button class="btn" onclick="closeAllFlash()">모두 앞면</button></div><div class="flashgrid" id="vocabGrid"></div></div>
+  <div class="card"><h2>단어 카드</h2><div class="controls"><button class="btn primary" onclick="renderVocab('all')">전체</button><button class="btn" onclick="renderVocab(3)">3과</button><button class="btn" onclick="renderVocab(4)">4과</button><button class="btn" onclick="renderVocab(5)">5과</button><button class="btn" onclick="closeAllFlash()">모두 앞면</button></div>
+    <div class="picture-study" id="vocabPictureStudy"><h3>그림 한눈에</h3><p class="picture-help">그림으로 먼저 기억한 뒤 아래 기존 단어카드에서 다시 확인하세요.</p><div class="picture-tabs"><button class="picbtn active" data-vpic="3" onclick="showVocabPicture(3,this)">3과</button><button class="picbtn" data-vpic="4" onclick="showVocabPicture(4,this)">4과</button><button class="picbtn" data-vpic="5" onclick="showVocabPicture(5,this)">5과</button></div><img class="study-picture" id="vocabPicture" src="images/vocab/lesson3.png" alt="제3과 단어 그림 한눈에"><div class="picture-caption">업로드한 원본 그림을 그대로 표시합니다.</div></div>
+    <div class="flashgrid" id="vocabGrid" style="margin-top:16px"></div></div>
 </section>
 
 <section class="page" id="verb">
@@ -112,6 +143,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
     </table></div>
     <div class="callout amber"><b>외우는 소리:</b> 오–에이스–에이 / 오멘–에테–우시(ㄴ)</div>
   </div>
+  <div class="card" id="verbPictureCard"><h2>그림으로 6인칭 익히기</h2><p class="small">동사를 골라 그림으로 어미를 익히고, 바로 아래 기존 6인칭 표에서 다시 확인하세요.</p><div class="picture-tabs" id="verbPictureTabs"></div><img class="study-picture" id="verbPicture" src="images/verb/blepo.png" alt="βλέπω 현재 능동태 직설법 6인칭 그림"><div class="picture-caption">원본 그림 그대로 · 어미 반복 기억용</div></div>
   <div class="card"><h2>8개 동사를 6인칭으로 보기</h2><p class="small">행을 눌러도 되고, 표를 좌우로 밀어서 볼 수 있다. 빨간 부분이 시험에서 먼저 확인할 어미다.</p><div id="verbTables"></div></div>
 </section>
 
@@ -120,6 +152,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
     <div class="callout"><b>N 주격</b><br>~이/가, ~은/는</div><div class="callout"><b>G 속격</b><br>~의</div><div class="callout"><b>D 여격</b><br>~에게, ~로</div><div class="callout"><b>A 목적격</b><br>~을/를</div><div class="callout"><b>V 호격</b><br>~아, ~여</div></div>
     <div class="callout red"><b>판별 순서:</b> ① 단어 끝 보기 → ② 단수/복수 후보 찾기 → ③ 성과 변화형 확인 → ④ 문장에서 주어·소유·간접목적어·목적어 역할 확인.</div>
   </div>
+  <div class="card" id="nounPictureCard"><h2>그림으로 격 익히기</h2><p class="small">성·수 조합을 눌러 원본 그림을 보고 격의 역할과 어미를 연결해서 기억하세요.</p><div class="picture-tabs" id="nounPictureTabs"></div><img class="study-picture" id="nounPicture" src="images/noun/masc-singular.png" alt="제2변화 남성명사 단수 5격 그림"><div class="picture-caption">원본 그림 그대로 · 주격/속격/여격/목적격/호격 기억용</div></div>
   <div class="card"><h2>제2변화 남성 — <span class="greek">ἄνθρωπος</span> 사람</h2><div id="anthTable"></div></div>
   <div class="card"><h2>제2변화 남성 — <span class="greek">υἱός</span> 아들</h2><div id="huiTable"></div></div>
   <div class="card"><h2>제2변화 중성 — <span class="greek">δῶρον</span> 선물</h2><div class="callout green"><b>중성의 핵심:</b> 주격 = 목적격 = 호격. 복수 주격/목적격/호격은 <span class="greek ending">-α</span>.</div><div id="doronTable"></div></div>
@@ -154,6 +187,8 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
   <div class="card"><h2>5. 제1변화 여성 η형</h2><div class="quickline"><span class="ending">η</span> · <span class="ending">ης</span> · <span class="ending">ῃ</span> · <span class="ending">ην</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">에 · 에스 · 에 · 엔 / 아이 · 온 · 아이스 · 아스</span></div></div>
   <div class="card"><h2>출제번호</h2><div class="callout red"><b>3과:</b> 1·3·5·7·9<br><b>4과:</b> 2·4·6·8·10·12·14·16·18·20<br><b>5과:</b> 1·3·5·7·9·11·13·15·17</div></div>
 </section>
+
+<div class="study-modal" id="vocabNoteModal" aria-hidden="true"><div class="study-sheet" role="dialog" aria-modal="true" aria-labelledby="vocabNoteTitle"><div class="study-head"><div><h2 class="study-title" id="vocabNoteTitle">단어 상세</h2><div class="small" id="vocabNoteSub"></div></div><button class="study-close" type="button" onclick="closeVocabNote()" aria-label="닫기">×</button></div><div class="study-body" id="vocabNoteBody"></div></div></div>
 <div class="footer">교재 제3과 16–22, 제4과 23–43, 제5과 44–57 및 사진에서 표시된 범위를 기준으로 구성</div>
 </main>
 <script>
@@ -165,7 +200,8 @@ const vocab=[
 {l:4,g:'ἀδελφός',p:'아델포스',m:'형제',x:'남성'},{l:4,g:'ἄνθρωπος',p:'안트로포스',m:'사람, 인간',x:'남성'},{l:4,g:'ἀπόστολος',p:'아포스톨로스',m:'사도',x:'남성'},{l:4,g:'δοῦλος',p:'둘로스',m:'종, 노예',x:'남성'},{l:4,g:'δῶρον',p:'도론',m:'선물',x:'중성'},{l:4,g:'θάνατος',p:'타나토스',m:'죽음',x:'남성'},{l:4,g:'ἱερόν',p:'히에론',m:'성전, 성역',x:'중성'},{l:4,g:'καί',p:'카이',m:'그리고, 또',x:'접속사'},{l:4,g:'λόγος',p:'로고스',m:'말씀, 말',x:'남성'},{l:4,g:'νόμος',p:'노모스',m:'율법',x:'남성'},{l:4,g:'οἶκος',p:'오이코스',m:'집',x:'남성'},{l:4,g:'υἱός',p:'휘오스',m:'아들',x:'남성'},
 {l:5,g:'ἀλήθεια',p:'알레테이아',m:'진리, 참',x:'여성'},{l:5,g:'βασιλεία',p:'바실레이아',m:'왕국, 나라, 주권',x:'여성'},{l:5,g:'γραφή',p:'그라페',m:'문서, 성경',x:'여성'},{l:5,g:'δόξα',p:'독사',m:'영광',x:'여성'},{l:5,g:'εἰρήνη',p:'에이레네',m:'평화, 평강',x:'여성'},{l:5,g:'ἐκκλησία',p:'에클레시아',m:'교회',x:'여성'},{l:5,g:'ἐντολή',p:'엔톨레',m:'계명',x:'여성'},{l:5,g:'ζωή',p:'조에',m:'생명',x:'여성'},{l:5,g:'ἡμέρα',p:'헤메라',m:'날',x:'여성'},{l:5,g:'καρδία',p:'카르디아',m:'마음',x:'여성'},{l:5,g:'παραβολή',p:'파라볼레',m:'비유',x:'여성'},{l:5,g:'φωνή',p:'포네',m:'음성, 소리',x:'여성'},{l:5,g:'ψυχή',p:'프쉬케',m:'혼, 목숨',x:'여성'},{l:5,g:'ὥρα',p:'호라',m:'시간',x:'여성'}
 ];
-function renderVocab(lesson='all'){const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);document.getElementById('vocabGrid').innerHTML=a.map(v=>`<div class="flash" onclick="this.classList.toggle('open')"><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div><div class="hint">눌러서 확인</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`).join('')}
+function noteIconSVG(){return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="3.5" width="15" height="17" rx="2"></rect><line x1="8.5" y1="3.5" x2="8.5" y2="20.5"></line><line x1="12" y1="8" x2="16" y2="8"></line><line x1="12" y1="12" x2="16" y2="12"></line><line x1="12" y1="16" x2="15" y2="16"></line></svg>`}
+function renderVocab(lesson='all'){const a=lesson==='all'?vocab:vocab.filter(v=>v.l==lesson);document.getElementById('vocabGrid').innerHTML=a.map(v=>{const idx=vocab.indexOf(v);return `<div class="flash" onclick="this.classList.toggle('open')"><button class="card-note-btn" type="button" aria-label="${v.g} 상세 노트" title="상세 노트" onclick="event.stopPropagation();openVocabNote(${idx})">${noteIconSVG()}</button><div class="front"><div class="badge">${v.l}과</div><div class="greekbig">${v.g}</div><div class="hint">눌러서 확인</div></div><div class="back"><b>${v.p}</b><br>${v.m}${v.x?`<br><span class="small">${v.x}</span>`:''}</div></div>`}).join('')}
 function closeAllFlash(){document.querySelectorAll('.flash').forEach(x=>x.classList.remove('open'))} renderVocab();
 
 const verbBases=[
@@ -179,7 +215,8 @@ const verbBases=[
 {g:'ἔχω',stem:'ἐχ',p:'에코',m:'가지다',forms:[['ἔχω','에코'],['ἔχεις','에케이스'],['ἔχει','에케이'],['ἔχομεν','에코멘'],['ἔχετε','에케테'],['ἔχουσι(ν)','에쿠시(ㄴ)']]}
 ];
 const person=['1인칭 단수','2인칭 단수','3인칭 단수','1인칭 복수','2인칭 복수','3인칭 복수']; const vend=['ω','εις','ει','ομεν','ετε','ουσι(ν)'];
-document.getElementById('verbTables').innerHTML=verbBases.map(v=>`<details><summary><span class="greek">${v.g}</span> · ${v.p} · ${v.m}</summary><div class="inside"><div class="tablewrap"><table class="tight"><tr><th>인칭</th><th>형태</th><th>발음</th><th>뜻</th></tr>${v.forms.map((f,i)=>`<tr><td>${person[i]}</td><td class="greek">${f[0]}</td><td>${f[1]}</td><td>${i===0?'내가':i===1?'네가':i===2?'그가':i===3?'우리가':i===4?'너희가':'그들이'} ${v.m}</td></tr>`).join('')}</table></div></div></details>`).join('');
+function markVerbEnding(form,i){const e=vend[i];if(form.endsWith(e))return `<span class="stempart">${form.slice(0,-e.length)}</span><span class="endpart">${e}</span>`;return form}
+document.getElementById('verbTables').innerHTML=verbBases.map(v=>`<details><summary><span class="greek">${v.g}</span> · ${v.p} · ${v.m}</summary><div class="inside"><div class="tablewrap"><table class="tight form-table"><tr><th>인칭</th><th>형태</th><th>발음</th><th>뜻</th></tr>${v.forms.map((f,i)=>`<tr><td>${person[i]}</td><td class="greek">${markVerbEnding(f[0],i)}</td><td>${f[1]}</td><td>${i===0?'내가':i===1?'네가':i===2?'그가':i===3?'우리가':i===4?'너희가':'그들이'} ${v.m}</td></tr>`).join('')}</table></div></div></details>`).join('');
 
 function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="greek">${r[1]}</td><td>${r[2]}</td><td class="greek">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
 document.getElementById('anthTable').innerHTML=paradigmHTML([['N 주격','ἄνθρωπος','안트로포스','ἄνθρωποι','안트로포이'],['G 속격','ἀνθρώπου','안트로푸','ἀνθρώπων','안트로폰'],['D 여격','ἀνθρώπῳ','안트로포','ἀνθρώποις','안트로포이스'],['A 목적격','ἄνθρωπον','안트로폰','ἀνθρώπους','안트로푸스'],['V 호격','ἄνθρωπε','안트로페','ἄνθρωποι','안트로포이']]);
@@ -220,6 +257,64 @@ let currentEnding=null;
 function newEndingQ(){currentEnding=endingQuizData[Math.floor(Math.random()*endingQuizData.length)];const [st,en]=currentEnding.split.split('|');document.getElementById('endingQuiz').innerHTML=`<div class="small">형태를 끝만 보고 분석하세요.</div><div class="greekbig" style="margin:8px 0"><span class="stem">${st}</span><span class="ending">${en}</span></div><div><b>읽기:</b> ${currentEnding.p}</div><div class="choices" style="margin-top:12px">${shuffle([currentEnding.a,'주격 단수','속격 복수','목적격 단수']).map(c=>`<button class="choice" onclick="chooseEnding(this,'${esc(c)}')">${c}</button>`).join('')}</div><div class="answerbox" id="endingAns"><b>${currentEnding.a}</b><br>${currentEnding.why}</div>`}
 function chooseEnding(btn,val){document.querySelectorAll('#endingQuiz .choice').forEach(b=>b.disabled=true);if(val===currentEnding.a){btn.classList.add('correct')}else{btn.classList.add('wrong');[...document.querySelectorAll('#endingQuiz .choice')].find(b=>b.textContent===currentEnding.a)?.classList.add('correct')}showEndingAnswer()}
 function showEndingAnswer(){document.getElementById('endingAns')?.classList.add('show')} function esc(s){return s.replaceAll("'","&#39;")} function shuffle(a){return [...a].sort(()=>Math.random()-.5)} newEndingQ();
+
+
+// ===== 1차 보존 확장 기능 =====
+const vocabPictureMap={3:['images/vocab/lesson3.png','제3과 단어 그림 한눈에'],4:['images/vocab/lesson4.png','제4과 단어 그림 한눈에'],5:['images/vocab/lesson5.png','제5과 단어 그림 한눈에']};
+function showVocabPicture(lesson,btn){const [src,alt]=vocabPictureMap[lesson];const img=document.getElementById('vocabPicture');img.src=src;img.alt=alt;document.querySelectorAll('[data-vpic]').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
+
+const verbPictureMap=[
+['βλέπω','블레포','images/verb/blepo.png'],['γινώσκω','기노스코','images/verb/ginosko.png'],['γράφω','그라포','images/verb/grapho.png'],['διδάσκω','디다스코','images/verb/didasko.png'],['λαμβάνω','람바노','images/verb/lambano.png'],['λέγω','레고','images/verb/lego.png'],['λύω','뤼오','images/verb/luo.png'],['ἔχω','에코','images/verb/echo.png']];
+function initVerbPictures(){const box=document.getElementById('verbPictureTabs');box.innerHTML=verbPictureMap.map((x,i)=>`<button class="picbtn ${i===0?'active':''}" onclick="showVerbPicture(${i},this)"><span class="greek">${x[0]}</span></button>`).join('')}
+function showVerbPicture(i,btn){const x=verbPictureMap[i],img=document.getElementById('verbPicture');img.src=x[2];img.alt=`${x[0]} 현재 능동태 직설법 6인칭 그림`;document.querySelectorAll('#verbPictureTabs .picbtn').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
+
+const nounPictureMap=[
+['남성 단수','images/noun/masc-singular.png','제2변화 남성명사 단수 5격'],['남성 복수','images/noun/masc-plural.png','제2변화 남성명사 복수 5격'],['중성 단수','images/noun/neuter-singular.png','제2변화 중성명사 단수 5격'],['중성 복수','images/noun/neuter-plural.png','제2변화 중성명사 복수 5격'],['여성 단수','images/noun/fem-singular.png','제1변화 여성명사 단수 5격'],['여성 복수','images/noun/fem-plural.png','제1변화 여성명사 복수 5격']];
+function initNounPictures(){const box=document.getElementById('nounPictureTabs');box.innerHTML=nounPictureMap.map((x,i)=>`<button class="picbtn ${i===0?'active':''}" onclick="showNounPicture(${i},this)">${x[0]}</button>`).join('')}
+function showNounPicture(i,btn){const x=nounPictureMap[i],img=document.getElementById('nounPicture');img.src=x[1];img.alt=x[2];document.querySelectorAll('#nounPictureTabs .picbtn').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
+
+const caseInfo=[['N 주격','~이/가, ~은/는'],['G 속격','~의'],['D 여격','~에게, ~로'],['A 목적격','~을/를'],['V 호격','~아, ~여']];
+const nounDetails={
+'ἀδελφός':{type:'제2변화 남성명사',stem:'ἀδελφ-',rows:[['ἀδελφ|ός','아델포스','ἀδελφ|οί','아델포이'],['ἀδελφ|οῦ','아델푸','ἀδελφ|ῶν','아델폰'],['ἀδελφ|ῷ','아델포','ἀδελφ|οῖς','아델포이스'],['ἀδελφ|όν','아델폰','ἀδελφ|ούς','아델푸스'],['ἀδελφ|έ','아델페','ἀδελφ|οί','아델포이']]},
+'ἄνθρωπος':{type:'제2변화 남성명사',stem:'ἀνθρωπ-',rows:[['ἄνθρωπ|ος','안트로포스','ἄνθρωπ|οι','안트로포이'],['ἀνθρώπ|ου','안트로푸','ἀνθρώπ|ων','안트로폰'],['ἀνθρώπ|ῳ','안트로포','ἀνθρώπ|οις','안트로포이스'],['ἄνθρωπ|ον','안트로폰','ἀνθρώπ|ους','안트로푸스'],['ἄνθρωπ|ε','안트로페','ἄνθρωπ|οι','안트로포이']]},
+'ἀπόστολος':{type:'제2변화 남성명사',stem:'ἀποστολ-',rows:[['ἀπόστολ|ος','아포스톨로스','ἀπόστολ|οι','아포스톨로이'],['ἀποστόλ|ου','아포스톨루','ἀποστόλ|ων','아포스톨론'],['ἀποστόλ|ῳ','아포스톨로','ἀποστόλ|οις','아포스톨로이스'],['ἀπόστολ|ον','아포스톨론','ἀποστόλ|ους','아포스톨루스'],['ἀπόστολ|ε','아포스톨레','ἀπόστολ|οι','아포스톨로이']]},
+'δοῦλος':{type:'제2변화 남성명사',stem:'δουλ-',rows:[['δοῦλ|ος','둘로스','δοῦλ|οι','둘로이'],['δούλ|ου','둘루','δούλ|ων','둘론'],['δούλ|ῳ','둘로','δούλ|οις','둘로이스'],['δοῦλ|ον','둘론','δούλ|ους','둘루스'],['δοῦλ|ε','둘레','δοῦλ|οι','둘로이']]},
+'δῶρον':{type:'제2변화 중성명사',stem:'δωρ-',rows:[['δῶρ|ον','도론','δῶρ|α','도라'],['δώρ|ου','도루','δώρ|ων','도론'],['δώρ|ῳ','도로','δώρ|οις','도로이스'],['δῶρ|ον','도론','δῶρ|α','도라'],['δῶρ|ον','도론','δῶρ|α','도라']]},
+'θάνατος':{type:'제2변화 남성명사',stem:'θανατ-',rows:[['θάνατ|ος','타나토스','θάνατ|οι','타나토이'],['θανάτ|ου','타나투','θανάτ|ων','타나톤'],['θανάτ|ῳ','타나토','θανάτ|οις','타나토이스'],['θάνατ|ον','타나톤','θανάτ|ους','타나투스'],['θάνατ|ε','타나테','θάνατ|οι','타나토이']]},
+'ἱερόν':{type:'제2변화 중성명사',stem:'ἱερ-',rows:[['ἱερ|όν','히에론','ἱερ|ά','히에라'],['ἱερ|οῦ','히에루','ἱερ|ῶν','히에론'],['ἱερ|ῷ','히에로','ἱερ|οῖς','히에로이스'],['ἱερ|όν','히에론','ἱερ|ά','히에라'],['ἱερ|όν','히에론','ἱερ|ά','히에라']]},
+'λόγος':{type:'제2변화 남성명사',stem:'λογ-',rows:[['λόγ|ος','로고스','λόγ|οι','로고이'],['λόγ|ου','로구','λόγ|ων','로곤'],['λόγ|ῳ','로고','λόγ|οις','로고이스'],['λόγ|ον','로곤','λόγ|ους','로구스'],['λόγ|ε','로게','λόγ|οι','로고이']]},
+'νόμος':{type:'제2변화 남성명사',stem:'νομ-',rows:[['νόμ|ος','노모스','νόμ|οι','노모이'],['νόμ|ου','노무','νόμ|ων','노몬'],['νόμ|ῳ','노모','νόμ|οις','노모이스'],['νόμ|ον','노몬','νόμ|ους','노무스'],['νόμ|ε','노메','νόμ|οι','노모이']]},
+'οἶκος':{type:'제2변화 남성명사',stem:'οἰκ-',rows:[['οἶκ|ος','오이코스','οἶκ|οι','오이코이'],['οἴκ|ου','오이쿠','οἴκ|ων','오이콘'],['οἴκ|ῳ','오이코','οἴκ|οις','오이코이스'],['οἶκ|ον','오이콘','οἴκ|ους','오이쿠스'],['οἶκ|ε','오이케','οἶκ|οι','오이코이']]},
+'υἱός':{type:'제2변화 남성명사',stem:'υἱ-',rows:[['υἱ|ός','휘오스','υἱ|οί','휘오이'],['υἱ|οῦ','휘우','υἱ|ῶν','휘온'],['υἱ|ῷ','휘오','υἱ|οῖς','휘오이스'],['υἱ|όν','휘온','υἱ|ούς','휘우스'],['υἱ|έ','휘에','υἱ|οί','휘오이']]},
+'ἀλήθεια':{type:'제1변화 여성명사 · 순수 α형',stem:'ἀληθει-',rows:[['ἀλήθει|α','알레테이아','ἀλήθει|αι','알레테이아이'],['ἀληθεί|ας','알레테이아스','ἀληθει|ῶν','알레테이온'],['ἀληθεί|ᾳ','알레테이아','ἀληθεί|αις','알레테이아이스'],['ἀλήθει|αν','알레테이안','ἀληθεί|ας','알레테이아스'],['ἀλήθει|α','알레테이아','ἀλήθει|αι','알레테이아이']]},
+'βασιλεία':{type:'제1변화 여성명사 · 순수 α형',stem:'βασιλει-',rows:[['βασιλεί|α','바실레이아','βασιλεῖ|αι','바실레이아이'],['βασιλεί|ας','바실레이아스','βασιλει|ῶν','바실레이온'],['βασιλεί|ᾳ','바실레이아','βασιλεί|αις','바실레이아이스'],['βασιλεί|αν','바실레이안','βασιλεί|ας','바실레이아스'],['βασιλεί|α','바실레이아','βασιλεῖ|αι','바실레이아이']]},
+'γραφή':{type:'제1변화 여성명사 · η형',stem:'γραφ-',rows:[['γραφ|ή','그라페','γραφ|αί','그라파이'],['γραφ|ῆς','그라페스','γραφ|ῶν','그라폰'],['γραφ|ῇ','그라페','γραφ|αῖς','그라파이스'],['γραφ|ήν','그라펜','γραφ|άς','그라파스'],['γραφ|ή','그라페','γραφ|αί','그라파이']]},
+'δόξα':{type:'제1변화 여성명사 · 혼합 α형',stem:'δοξ-',rows:[['δόξ|α','독사','δόξ|αι','독사이'],['δόξ|ης','독세스','δοξ|ῶν','독손'],['δόξ|ῃ','독세','δόξ|αις','독사이스'],['δόξ|αν','독산','δόξ|ας','독사스'],['δόξ|α','독사','δόξ|αι','독사이']]},
+'εἰρήνη':{type:'제1변화 여성명사 · η형',stem:'εἰρην-',rows:[['εἰρήν|η','에이레네','εἰρῆν|αι','에이레나이'],['εἰρήν|ης','에이레네스','εἰρην|ῶν','에이레논'],['εἰρήν|ῃ','에이레네','εἰρήν|αις','에이레나이스'],['εἰρήν|ην','에이레넨','εἰρήν|ας','에이레나스'],['εἰρήν|η','에이레네','εἰρῆν|αι','에이레나이']]},
+'ἐκκλησία':{type:'제1변화 여성명사 · 순수 α형',stem:'ἐκκλησι-',rows:[['ἐκκλησί|α','에클레시아','ἐκκλησί|αι','에클레시아이'],['ἐκκλησί|ας','에클레시아스','ἐκκλησι|ῶν','에클레시온'],['ἐκκλησί|ᾳ','에클레시아','ἐκκλησί|αις','에클레시아이스'],['ἐκκλησί|αν','에클레시안','ἐκκλησί|ας','에클레시아스'],['ἐκκλησί|α','에클레시아','ἐκκλησί|αι','에클레시아이']]},
+'ἐντολή':{type:'제1변화 여성명사 · η형',stem:'ἐντολ-',rows:[['ἐντολ|ή','엔톨레','ἐντολ|αί','엔톨라이'],['ἐντολ|ῆς','엔톨레스','ἐντολ|ῶν','엔톨론'],['ἐντολ|ῇ','엔톨레','ἐντολ|αῖς','엔톨라이스'],['ἐντολ|ήν','엔톨렌','ἐντολ|άς','엔톨라스'],['ἐντολ|ή','엔톨레','ἐντολ|αί','엔톨라이']]},
+'ζωή':{type:'제1변화 여성명사 · η형',stem:'ζω-',rows:[['ζω|ή','조에','ζω|αί','조아이'],['ζω|ῆς','조에스','ζω|ῶν','조온'],['ζω|ῇ','조에','ζω|αῖς','조아이스'],['ζω|ήν','조엔','ζω|άς','조아스'],['ζω|ή','조에','ζω|αί','조아이']]},
+'ἡμέρα':{type:'제1변화 여성명사 · 순수 α형',stem:'ἡμερ-',rows:[['ἡμέρ|α','헤메라','ἡμέρ|αι','헤메라이'],['ἡμέρ|ας','헤메라스','ἡμερ|ῶν','헤메론'],['ἡμέρ|ᾳ','헤메라','ἡμέρ|αις','헤메라이스'],['ἡμέρ|αν','헤메란','ἡμέρ|ας','헤메라스'],['ἡμέρ|α','헤메라','ἡμέρ|αι','헤메라이']]},
+'καρδία':{type:'제1변화 여성명사 · 순수 α형',stem:'καρδι-',rows:[['καρδί|α','카르디아','καρδί|αι','카르디아이'],['καρδί|ας','카르디아스','καρδι|ῶν','카르디온'],['καρδί|ᾳ','카르디아','καρδί|αις','카르디아이스'],['καρδί|αν','카르디안','καρδί|ας','카르디아스'],['καρδί|α','카르디아','καρδί|αι','카르디아이']]},
+'παραβολή':{type:'제1변화 여성명사 · η형',stem:'παραβολ-',rows:[['παραβολ|ή','파라볼레','παραβολ|αί','파라볼라이'],['παραβολ|ῆς','파라볼레스','παραβολ|ῶν','파라볼론'],['παραβολ|ῇ','파라볼레','παραβολ|αῖς','파라볼라이스'],['παραβολ|ήν','파라볼렌','παραβολ|άς','파라볼라스'],['παραβολ|ή','파라볼레','παραβολ|αί','파라볼라이']]},
+'φωνή':{type:'제1변화 여성명사 · η형',stem:'φων-',rows:[['φων|ή','포네','φων|αί','포나이'],['φων|ῆς','포네스','φων|ῶν','포논'],['φων|ῇ','포네','φων|αῖς','포나이스'],['φων|ήν','포넨','φων|άς','포나스'],['φων|ή','포네','φων|αί','포나이']]},
+'ψυχή':{type:'제1변화 여성명사 · η형',stem:'ψυχ-',rows:[['ψυχ|ή','프쉬케','ψυχ|αί','프쉬카이'],['ψυχ|ῆς','프쉬케스','ψυχ|ῶν','프쉬콘'],['ψυχ|ῇ','프쉬케','ψυχ|αῖς','프쉬카이스'],['ψυχ|ήν','프쉬켄','ψυχ|άς','프쉬카스'],['ψυχ|ή','프쉬케','ψυχ|αί','프쉬카이']]},
+'ὥρα':{type:'제1변화 여성명사 · 순수 α형',stem:'ὡρ-',rows:[['ὥρ|α','호라','ὧρ|αι','호라이'],['ὥρ|ας','호라스','ὡρ|ῶν','호론'],['ὥρ|ᾳ','호라','ὥρ|αις','호라이스'],['ὥρ|αν','호란','ὥρ|ας','호라스'],['ὥρ|α','호라','ὧρ|αι','호라이']]}
+};
+const verbGloss={'βλέπω':'본다','γινώσκω':'안다','γράφω':'쓴다','διδάσκω':'가르친다','λαμβάνω':'받는다/취한다','λέγω':'말한다','λύω':'푼다','ἔχω':'가진다'};
+function splitColored(s){const a=s.split('|');return `<span class="stempart">${a[0]}</span><span class="endpart">${a[1]||''}</span>`}
+function openVocabNote(i){const v=vocab[i],modal=document.getElementById('vocabNoteModal');document.getElementById('vocabNoteTitle').innerHTML=`<span class="greek">${v.g}</span> · ${v.p}`;document.getElementById('vocabNoteSub').textContent=`${v.l}과 · ${v.m}`;let h='';
+ const vb=verbBases.find(x=>x.g===v.g);
+ if(vb){h+=`<div class="study-summary"><div class="study-chip"><small>기본형</small><b class="greek">${v.g}</b></div><div class="study-chip"><small>품사</small><b>동사</b></div><div class="study-chip"><small>어간</small><b class="greek">${vb.stem}-</b></div><div class="study-chip"><small>현재 범위</small><b>현재 능동태 직설법</b></div></div>`;
+ h+=`<div class="tablewrap"><table class="tight form-table"><tr><th>인칭</th><th>실제 형태</th><th>발음</th><th>뜻</th></tr>${vb.forms.map((f,j)=>{const end=vend[j],stem=f[0].endsWith(end)?f[0].slice(0,-end.length):f[0];const who=['내가','네가','그/그녀가','우리가','너희가','그들이'][j];return `<tr><td>${person[j]}</td><td>${f[0].endsWith(end)?`<span class="stempart">${stem}</span><span class="endpart">${end}</span>`:f[0]}</td><td>${f[1]}</td><td>${who} ${verbGloss[v.g]}</td></tr>`}).join('')}</table></div><div class="study-tip"><b>시험에서 찾는 법:</b> 단어의 맨 끝 빨간 어미를 먼저 보세요. <span class="greek">-ω / -εις / -ει / -ομεν / -ετε / -ουσι(ν)</span>가 인칭과 수를 알려줍니다.</div>`;
+ }else if(v.g==='καί'){h=`<div class="study-summary"><div class="study-chip"><small>기본형</small><b class="greek">καί</b></div><div class="study-chip"><small>품사</small><b>접속사</b></div></div><div class="callout"><b>뜻:</b> 그리고, 또</div><div class="study-tip">καί는 명사처럼 격변화를 하거나 동사처럼 인칭변화를 하지 않는 기능어입니다.</div>`;
+ }else{const d=nounDetails[v.g]; if(!d){h='<div class="callout red">이 단어의 상세 변화형 데이터가 없습니다.</div>'}else{h+=`<div class="study-summary"><div class="study-chip"><small>기본형</small><b class="greek">${v.g}</b></div><div class="study-chip"><small>성</small><b>${v.x||''}</b></div><div class="study-chip"><small>변화 유형</small><b>${d.type}</b></div><div class="study-chip"><small>어간</small><b class="greek">${d.stem}</b></div></div>`;
+ h+=`<div class="tablewrap"><table class="tight form-table"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th><th>기능</th></tr>${d.rows.map((r,j)=>`<tr><td>${caseInfo[j][0]}</td><td>${splitColored(r[0])}</td><td>${r[1]}</td><td>${splitColored(r[2])}</td><td>${r[3]}</td><td>${caseInfo[j][1]}</td></tr>`).join('')}</table></div><div class="study-tip"><b>시험에서 찾는 법:</b> 먼저 빨간 어미를 보고 격·수를 후보로 잡은 뒤, 성과 문장 안의 역할을 확인하세요.${d.type.includes('중성')?' 중성은 주격=목적격=호격 형태가 같습니다.':''}</div>`}}
+ document.getElementById('vocabNoteBody').innerHTML=h;modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+function closeVocabNote(){const m=document.getElementById('vocabNoteModal');m.classList.remove('show');m.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+document.getElementById('vocabNoteModal').addEventListener('click',e=>{if(e.target.id==='vocabNoteModal')closeVocabNote()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVocabNote()});
+initVerbPictures();initNounPictures();
 
 const sent={
 3:[
