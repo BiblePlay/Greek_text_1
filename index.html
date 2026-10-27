@@ -128,6 +128,12 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 /* 추가되는 변화표 연습 영역에만 적용 (기존 앱 스타일 변경 없음) */
 .grammar-practice-frame{display:block;width:100%;height:1600px;border:0;background:#f1f4f9;border-radius:16px}
 @media(max-width:560px){.grammar-practice-frame{border-radius:12px}}
+
+/* 명사 변화표: 여격 행과 여격 어미를 같은 색으로 연결 */
+.dative-highlight td:first-child,
+.dative-highlight td.greek{color:#0b7285!important;font-weight:900;}
+.dative-highlight td.greek{background:rgba(11,114,133,.065);}
+.quickline .dative-ending{color:#0b7285!important;font-weight:900;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;}
 </style>
 </head>
 <body>
@@ -218,7 +224,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
     <div class="callout"><b>N 주격</b><br>~이/가, ~은/는</div><div class="callout"><b>G 속격</b><br>~의</div><div class="callout"><b>D 여격</b><br>~에게, ~로</div><div class="callout"><b>A 목적격</b><br>~을/를</div><div class="callout"><b>V 호격</b><br>~아, ~여</div></div>
     <div class="callout red"><b>판별 순서:</b> ① 단어 끝 보기 → ② 단수/복수 후보 찾기 → ③ 성과 변화형 확인 → ④ 문장에서 주어·소유·간접목적어·목적어 역할 확인.</div>
   </div>
-  <div class="card" id="nounPictureCard"><h2>그림으로 격 익히기</h2><p class="small">성·수 조합을 눌러 원본 그림을 보고 격의 역할과 어미를 연결해서 기억하세요.</p><div class="picture-tabs" id="nounPictureTabs"></div><img class="study-picture" id="nounPicture" src="./masc-singular.png" alt="제2변화 남성명사 단수 5격 그림" onerror="pictureLoadError(this,'nounPictureError')" onload="pictureLoadOk(this,'nounPictureError')"><div class="picture-error" id="nounPictureError" hidden>명사 그림 파일을 찾지 못했습니다.</div><div class="picture-caption">원본 그림 그대로 · 주격/속격/여격/목적격/호격 기억용</div></div>
+  <div class="card" id="nounPictureCard"><h2>그림으로 격 익히기</h2><p class="small">남성 단수 또는 남성 복수를 선택해 그림으로 격의 역할과 어미를 익혀 보세요.</p><div class="picture-tabs" id="nounPictureTabs"></div><img class="study-picture" id="nounPicture" src="./masc-singular.png" alt="제2변화 남성명사 단수 5격 그림" onerror="pictureLoadError(this,'nounPictureError')" onload="pictureLoadOk(this,'nounPictureError')"><div class="picture-error" id="nounPictureError" hidden>명사 그림 파일을 찾지 못했습니다.</div><div class="picture-caption">원본 그림 그대로 · 주격/속격/여격/목적격/호격 기억용</div></div>
   <div class="card"><h2>제2변화 남성 — <span class="greek">ἄνθρωπος</span> 사람</h2><div id="anthTable"></div></div>
   <div class="card"><h2>제2변화 남성 — <span class="greek">υἱός</span> 아들</h2><div id="huiTable"></div></div>
   <div class="card"><h2>제2변화 중성 — <span class="greek">δῶρον</span> 선물</h2><div class="callout green"><b>중성의 핵심:</b> 주격 = 목적격 = 호격. 복수 주격/목적격/호격은 <span class="greek ending">-α</span>.</div><div id="doronTable"></div></div>
@@ -279,10 +285,10 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
   </div>
   <div class="hero"><h2>핵심정리</h2><p>현재 범위에서 <b>한눈에 알아야 할 핵심 형태</b>를 빠르게 복습하는 곳입니다. 범위가 늘어나면 핵심 내용도 계속 추가할 수 있습니다.</p></div>
   <div class="card"><h2>1. 동사 현재 능동 직설법</h2><div class="quickline"><span class="ending">ω</span> · <span class="ending">εις</span> · <span class="ending">ει</span> / <span class="ending">ομεν</span> · <span class="ending">ετε</span> · <span class="ending">ουσι(ν)</span><br><span style="font-family:inherit;font-size:.9rem">오 · 에이스 · 에이 / 오멘 · 에테 · 우시(ㄴ)</span></div></div>
-  <div class="card"><h2>2. 제2변화 남성</h2><div class="quickline"><span class="ending">ος</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> · <span class="ending">ε</span> / <span class="ending">οι</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">ους</span><br><span style="font-family:inherit;font-size:.9rem">오스 · 우 · 오 · 온 · 에 / 오이 · 온 · 오이스 · 우스</span></div></div>
-  <div class="card"><h2>3. 제2변화 중성</h2><div class="quickline"><span class="ending">ον</span> · <span class="ending">ου</span> · <span class="ending">ῳ</span> · <span class="ending">ον</span> / <span class="ending">α</span> · <span class="ending">ων</span> · <span class="ending">οις</span> · <span class="ending">α</span><br><span style="font-family:inherit;font-size:.9rem">온 · 우 · 오 · 온 / 아 · 온 · 오이스 · 아</span></div></div>
-  <div class="card"><h2>4. 제1변화 여성 α형</h2><div class="quickline"><span class="ending">α</span> · <span class="ending">ας</span> · <span class="ending">ᾳ</span> · <span class="ending">αν</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">아 · 아스 · 아 · 안 / 아이 · 온 · 아이스 · 아스</span></div></div>
-  <div class="card"><h2>5. 제1변화 여성 η형</h2><div class="quickline"><span class="ending">η</span> · <span class="ending">ης</span> · <span class="ending">ῃ</span> · <span class="ending">ην</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">에 · 에스 · 에 · 엔 / 아이 · 온 · 아이스 · 아스</span></div></div>
+  <div class="card"><h2>2. 제2변화 남성</h2><div class="quickline"><span class="ending">ος</span> · <span class="ending">ου</span> · <span class="ending dative-ending">ῳ</span> · <span class="ending">ον</span> · <span class="ending">ε</span> / <span class="ending">οι</span> · <span class="ending dative-ending">ων</span> · <span class="ending">οις</span> · <span class="ending">ους</span><br><span style="font-family:inherit;font-size:.9rem">오스 · 우 · 오 · 온 · 에 / 오이 · 온 · 오이스 · 우스</span></div></div>
+  <div class="card"><h2>3. 제2변화 중성</h2><div class="quickline"><span class="ending">ον</span> · <span class="ending">ου</span> · <span class="ending dative-ending">ῳ</span> · <span class="ending">ον</span> / <span class="ending">α</span> · <span class="ending">ων</span> · <span class="ending dative-ending">οις</span> · <span class="ending">α</span><br><span style="font-family:inherit;font-size:.9rem">온 · 우 · 오 · 온 / 아 · 온 · 오이스 · 아</span></div></div>
+  <div class="card"><h2>4. 제1변화 여성 α형</h2><div class="quickline"><span class="ending">α</span> · <span class="ending">ας</span> · <span class="ending dative-ending">ᾳ</span> · <span class="ending">αν</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending dative-ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">아 · 아스 · 아 · 안 / 아이 · 온 · 아이스 · 아스</span></div></div>
+  <div class="card"><h2>5. 제1변화 여성 η형</h2><div class="quickline"><span class="ending">η</span> · <span class="ending">ης</span> · <span class="ending dative-ending">ῃ</span> · <span class="ending">ην</span> / <span class="ending">αι</span> · <span class="ending">ων</span> · <span class="ending dative-ending">αις</span> · <span class="ending">ας</span><br><span style="font-family:inherit;font-size:.9rem">에 · 에스 · 에 · 엔 / 아이 · 온 · 아이스 · 아스</span></div></div>
 
   <div class="card lesson-core" id="quick6"><h2>6. 제6과 — 형용사 · 관사 · 일치</h2>
     <div class="callout red"><b>핵심:</b> 형용사와 관사는 그것이 수식하는 명사와 <b>성 · 수 · 격</b>이 일치합니다.</div>
@@ -439,7 +445,7 @@ const person=['1인칭 단수','2인칭 단수','3인칭 단수','1인칭 복수
 function markVerbEnding(form,i){const e=vend[i];if(form.endsWith(e))return `<span class="stempart">${form.slice(0,-e.length)}</span><span class="endpart">${e}</span>`;return form}
 document.getElementById('verbTables').innerHTML=verbBases.map(v=>`<details><summary><span class="greek">${v.g}</span> · ${v.p} · ${v.m}</summary><div class="inside"><div class="tablewrap"><table class="tight form-table"><tr><th>인칭</th><th>형태</th><th>발음</th><th>뜻</th></tr>${v.forms.map((f,i)=>`<tr><td>${person[i]}</td><td class="greek">${markVerbEnding(f[0],i)}</td><td>${f[1]}</td><td>${i===0?'내가':i===1?'네가':i===2?'그가':i===3?'우리가':i===4?'너희가':'그들이'} ${v.m}</td></tr>`).join('')}</table></div></div></details>`).join('');
 
-function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="greek">${r[1]}</td><td>${r[2]}</td><td class="greek">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
+function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr class="${/^D(?:\s|$)/.test(r[0])?'dative-highlight':''}"><td>${r[0]}</td><td class="greek">${r[1]}</td><td>${r[2]}</td><td class="greek">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
 document.getElementById('anthTable').innerHTML=paradigmHTML([['N 주격','ἄνθρωπος','안트로포스','ἄνθρωποι','안트로포이'],['G 속격','ἀνθρώπου','안트로푸','ἀνθρώπων','안트로폰'],['D 여격','ἀνθρώπῳ','안트로포','ἀνθρώποις','안트로포이스'],['A 목적격','ἄνθρωπον','안트로폰','ἀνθρώπους','안트로푸스'],['V 호격','ἄνθρωπε','안트로페','ἄνθρωποι','안트로포이']]);
 document.getElementById('huiTable').innerHTML=paradigmHTML([['N 주격','υἱός','휘오스','υἱοί','휘오이'],['G 속격','υἱοῦ','휘우','υἱῶν','휘온'],['D 여격','υἱῷ','휘오','υἱοῖς','휘오이스'],['A 목적격','υἱόν','휘온','υἱούς','휘우스'],['V 호격','υἱέ','휘에','υἱοί','휘오이']]);
 document.getElementById('doronTable').innerHTML=paradigmHTML([['N/V 주격·호격','δῶρον','도론','δῶρα','도라'],['G 속격','δώρου','도루','δώρων','도론'],['D 여격','δώρῳ','도로','δώροις','도로이스'],['A 목적격','δῶρον','도론','δῶρα','도라']]);
@@ -490,7 +496,7 @@ function initVerbPictures(){const box=document.getElementById('verbPictureTabs')
 function showVerbPicture(i,btn){const x=verbPictureMap[i],img=document.getElementById('verbPicture');img.src=x[2];img.alt=`${x[0]} 현재 능동태 직설법 6인칭 그림`;document.querySelectorAll('#verbPictureTabs .picbtn').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
 
 const nounPictureMap=[
-['남성 단수','./masc-singular.png','제2변화 남성명사 단수 5격'],['남성 복수','./masc-plural.png','제2변화 남성명사 복수 5격'],['중성 단수','./neuter-singular.png','제2변화 중성명사 단수 5격'],['중성 복수','./neuter-plural.png','제2변화 중성명사 복수 5격'],['여성 단수','./fem-singular.png','제1변화 여성명사 단수 5격'],['여성 복수','./fem-plural.png','제1변화 여성명사 복수 5격']];
+['남성 단수','./masc-singular.png','제2변화 남성명사 단수 5격'],['남성 복수','./masc-plural.png','제2변화 남성명사 복수 5격']];
 function initNounPictures(){const box=document.getElementById('nounPictureTabs');box.innerHTML=nounPictureMap.map((x,i)=>`<button class="picbtn ${i===0?'active':''}" onclick="showNounPicture(${i},this)">${x[0]}</button>`).join('')}
 function showNounPicture(i,btn){const x=nounPictureMap[i],img=document.getElementById('nounPicture');img.src=x[1];img.alt=x[2];document.querySelectorAll('#nounPictureTabs .picbtn').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
 
