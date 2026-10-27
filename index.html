@@ -131,10 +131,10 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 
 /* 명사 변화표: 격에 상관없이 어미만 빨간색으로 표시 */
 .noun-case-ending{color:var(--red);font-weight:900;}
-.lesson6-picture-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:start;width:100%}
+.lesson6-picture-row{display:flex;flex-direction:column;gap:10px;align-items:stretch;width:100%}
 .lesson6-picture-row[hidden]{display:none!important}
 .lesson6-picture-row img{display:block;width:100%;height:auto;object-fit:contain;border-radius:9px}
-@media(max-width:600px){.lesson6-picture-row{gap:4px}.lesson6-picture-row img{border-radius:4px}}
+@media(max-width:600px){.lesson6-picture-row{gap:8px}.lesson6-picture-row img{border-radius:4px}}
 </style>
 </head>
 <body>
@@ -497,7 +497,7 @@ function showEndingAnswer(){document.getElementById('endingAns')?.classList.add(
 
 // ===== 1차 보존 확장 기능 =====
 const vocabPictureMap={3:['./lesson3.png','제3과 단어 그림 한눈에'],4:['./lesson4.png','제4과 단어 그림 한눈에'],5:['./lesson5.png','제5과 단어 그림 한눈에'],6:['./lesson6-1.png','제6과 단어 그림 한눈에']};
-function showVocabPicture(lesson,btn){const [src,alt]=vocabPictureMap[lesson];const img=document.getElementById('vocabPicture');const row=document.getElementById('lesson6PictureRow');const six=String(lesson)==='6';img.hidden=six;img.style.display=six?'none':'block';row.hidden=!six;row.style.display=six?'grid':'none';if(!six){img.src=src;img.alt=alt;}document.querySelectorAll('[data-vpic]').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
+function showVocabPicture(lesson,btn){const [src,alt]=vocabPictureMap[lesson];const img=document.getElementById('vocabPicture');const row=document.getElementById('lesson6PictureRow');const six=String(lesson)==='6';img.hidden=six;img.style.display=six?'none':'block';row.hidden=!six;row.style.display=six?'flex':'none';if(!six){img.src=src;img.alt=alt;}document.querySelectorAll('[data-vpic]').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
 
 const verbPictureMap=[
 ['βλέπω','블레포','./blepo.png'],['γινώσκω','기노스코','./ginosko.png'],['γράφω','그라포','./grapho.png'],['διδάσκω','디다스코','./didasko.png'],['λαμβάνω','람바노','./lambano.png'],['λέγω','레고','./lego.png'],['λύω','뤼오','./luo.png'],['ἔχω','에코','./echo.png']];
