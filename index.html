@@ -129,11 +129,8 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 .grammar-practice-frame{display:block;width:100%;height:1600px;border:0;background:#f1f4f9;border-radius:16px}
 @media(max-width:560px){.grammar-practice-frame{border-radius:12px}}
 
-/* 명사 변화표: 여격 행과 여격 어미를 같은 색으로 연결 */
-.dative-highlight td:first-child,
-.dative-highlight td.greek{color:#0b7285!important;font-weight:900;}
-.dative-highlight td.greek{background:rgba(11,114,133,.065);}
-.quickline .dative-ending{color:#0b7285!important;font-weight:900;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;}
+/* 명사 변화표: 격에 상관없이 어미만 빨간색으로 표시 */
+.noun-case-ending{color:var(--red);font-weight:900;}
 </style>
 </head>
 <body>
@@ -182,7 +179,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 
 <section class="page active" id="vocab">
   <div class="card"><h2>단어 카드</h2><div class="controls" id="vocabFilterControls"><button class="btn primary vocab-filter-btn" data-lesson="all" onclick="renderVocab('all',this)">전체</button><button class="btn vocab-filter-btn" data-lesson="3" onclick="renderVocab(3,this)">3과</button><button class="btn vocab-filter-btn" data-lesson="4" onclick="renderVocab(4,this)">4과</button><button class="btn vocab-filter-btn" data-lesson="5" onclick="renderVocab(5,this)">5과</button><button class="btn vocab-filter-btn" data-lesson="6" onclick="renderVocab(6,this)">6과</button><button class="btn vocab-filter-btn" data-lesson="7" onclick="renderVocab(7,this)">7과</button><button class="btn vocab-filter-btn" data-lesson="8" onclick="renderVocab(8,this)">8과</button><button class="btn" id="pictureBookBtn" onclick="togglePictureBook()">그림단어장</button></div>
-    <div class="picture-study" id="vocabPictureStudy" style="display:none"><h3>그림 한눈에</h3><p class="picture-help">그림으로 먼저 기억한 뒤 위의 3과·4과·5과 버튼을 누르면 해당 단어카드로 바로 돌아갑니다.</p><div class="picture-tabs"><button class="picbtn active" data-vpic="3" onclick="showVocabPicture(3,this)">3과</button><button class="picbtn" data-vpic="4" onclick="showVocabPicture(4,this)">4과</button><button class="picbtn" data-vpic="5" onclick="showVocabPicture(5,this)">5과</button></div><img class="study-picture" id="vocabPicture" src="./lesson3.png" alt="제3과 단어 그림 한눈에" onerror="pictureLoadError(this,'vocabPictureError')" onload="pictureLoadOk(this,'vocabPictureError')"><div class="picture-error" id="vocabPictureError" hidden>그림 파일을 찾지 못했습니다.</div><div class="picture-caption">업로드한 원본 그림을 그대로 표시합니다.</div></div>
+    <div class="picture-study" id="vocabPictureStudy" style="display:none"><h3>그림 한눈에</h3><p class="picture-help">그림으로 먼저 기억한 뒤 위의 3과·4과·5과·6과 버튼을 누르면 해당 단어카드로 바로 돌아갑니다.</p><div class="picture-tabs"><button class="picbtn active" data-vpic="3" onclick="showVocabPicture(3,this)">3과</button><button class="picbtn" data-vpic="4" onclick="showVocabPicture(4,this)">4과</button><button class="picbtn" data-vpic="5" onclick="showVocabPicture(5,this)">5과</button><button class="picbtn" data-vpic="6-1" onclick="showVocabPicture('6-1',this)">6과①</button><button class="picbtn" data-vpic="6-2" onclick="showVocabPicture('6-2',this)">6과②</button><button class="picbtn" data-vpic="6-3" onclick="showVocabPicture('6-3',this)">6과③</button></div><img class="study-picture" id="vocabPicture" src="./lesson3.png" alt="제3과 단어 그림 한눈에" onerror="pictureLoadError(this,'vocabPictureError')" onload="pictureLoadOk(this,'vocabPictureError')"><div class="picture-error" id="vocabPictureError" hidden>그림 파일을 찾지 못했습니다.</div><div class="picture-caption">업로드한 원본 그림을 그대로 표시합니다.</div></div>
     <div class="flashgrid" id="vocabGrid" style="margin-top:16px"></div></div>
 </section>
 
@@ -445,7 +442,15 @@ const person=['1인칭 단수','2인칭 단수','3인칭 단수','1인칭 복수
 function markVerbEnding(form,i){const e=vend[i];if(form.endsWith(e))return `<span class="stempart">${form.slice(0,-e.length)}</span><span class="endpart">${e}</span>`;return form}
 document.getElementById('verbTables').innerHTML=verbBases.map(v=>`<details><summary><span class="greek">${v.g}</span> · ${v.p} · ${v.m}</summary><div class="inside"><div class="tablewrap"><table class="tight form-table"><tr><th>인칭</th><th>형태</th><th>발음</th><th>뜻</th></tr>${v.forms.map((f,i)=>`<tr><td>${person[i]}</td><td class="greek">${markVerbEnding(f[0],i)}</td><td>${f[1]}</td><td>${i===0?'내가':i===1?'네가':i===2?'그가':i===3?'우리가':i===4?'너희가':'그들이'} ${v.m}</td></tr>`).join('')}</table></div></div></details>`).join('');
 
-function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr class="${/^D(?:\s|$)/.test(r[0])?'dative-highlight':''}"><td>${r[0]}</td><td class="greek">${r[1]}</td><td>${r[2]}</td><td class="greek">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
+function markNounCaseEnding(word){
+  // 어간은 원래 색 그대로 두고 실제 격 변화 어미만 빨간색
+  const endings=['οῖς','οις','οῦς','ούς','ους','αῖς','αις','ᾶς','άς','ας','ῆς','ής','ης','ῶν','ων','οῦ','ου','οῖ','οί','οι','αί','αι','ήν','ην','άν','αν','όν','ον','ός','ος','ῷ','ῳ','ῇ','ῃ','ᾳ','ᾷ','έ','ε','ή','η','ά','α'];
+  const normalized=String(word).normalize('NFC');
+  const ending=endings.find(x=>normalized.endsWith(x));
+  if(!ending || normalized.length<=ending.length)return normalized;
+  return normalized.slice(0,-ending.length)+'<span class="noun-case-ending">'+ending+'</span>';
+}
+function paradigmHTML(rows){return `<div class="tablewrap"><table class="tight"><tr><th>격</th><th>단수</th><th>발음</th><th>복수</th><th>발음</th></tr>${rows.map(r=>`<tr><td>${r[0]}</td><td class="greek">${markNounCaseEnding(r[1])}</td><td>${r[2]}</td><td class="greek">${markNounCaseEnding(r[3])}</td><td>${r[4]}</td></tr>`).join('')}</table></div>`}
 document.getElementById('anthTable').innerHTML=paradigmHTML([['N 주격','ἄνθρωπος','안트로포스','ἄνθρωποι','안트로포이'],['G 속격','ἀνθρώπου','안트로푸','ἀνθρώπων','안트로폰'],['D 여격','ἀνθρώπῳ','안트로포','ἀνθρώποις','안트로포이스'],['A 목적격','ἄνθρωπον','안트로폰','ἀνθρώπους','안트로푸스'],['V 호격','ἄνθρωπε','안트로페','ἄνθρωποι','안트로포이']]);
 document.getElementById('huiTable').innerHTML=paradigmHTML([['N 주격','υἱός','휘오스','υἱοί','휘오이'],['G 속격','υἱοῦ','휘우','υἱῶν','휘온'],['D 여격','υἱῷ','휘오','υἱοῖς','휘오이스'],['A 목적격','υἱόν','휘온','υἱούς','휘우스'],['V 호격','υἱέ','휘에','υἱοί','휘오이']]);
 document.getElementById('doronTable').innerHTML=paradigmHTML([['N/V 주격·호격','δῶρον','도론','δῶρα','도라'],['G 속격','δώρου','도루','δώρων','도론'],['D 여격','δώρῳ','도로','δώροις','도로이스'],['A 목적격','δῶρον','도론','δῶρα','도라']]);
@@ -487,7 +492,7 @@ function showEndingAnswer(){document.getElementById('endingAns')?.classList.add(
 
 
 // ===== 1차 보존 확장 기능 =====
-const vocabPictureMap={3:['./lesson3.png','제3과 단어 그림 한눈에'],4:['./lesson4.png','제4과 단어 그림 한눈에'],5:['./lesson5.png','제5과 단어 그림 한눈에']};
+const vocabPictureMap={3:['./lesson3.png','제3과 단어 그림 한눈에'],4:['./lesson4.png','제4과 단어 그림 한눈에'],5:['./lesson5.png','제5과 단어 그림 한눈에'],'6-1':['./lesson6-1.png','제6과 단어 그림 1'],'6-2':['./lesson6-2.png','제6과 단어 그림 2'],'6-3':['./lesson6-3.png','제6과 단어 그림 3']};
 function showVocabPicture(lesson,btn){const [src,alt]=vocabPictureMap[lesson];const img=document.getElementById('vocabPicture');img.src=src;img.alt=alt;document.querySelectorAll('[data-vpic]').forEach(b=>b.classList.remove('active'));btn?.classList.add('active')}
 
 const verbPictureMap=[
