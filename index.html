@@ -124,6 +124,20 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 .auto-form-summary{margin-top:7px;padding:7px 9px;border-radius:9px;background:#eef3f8;font-size:.82rem;font-weight:800}
 @media(max-width:680px){.prep-map{min-height:440px}.prep-space{left:24%;top:32%;width:52%;height:34%}.prep-arrow{font-size:.75rem;max-width:44%}.prep-through{left:23%;top:5%}.prep-in{left:2%;top:37%}.prep-out{right:2%;top:49%}.prep-toward{left:2%;bottom:8%}.prep-from{right:2%;bottom:8%}.prep-arrow i{font-size:1.35rem}}
 
+
+/* 시험 대비 그림연습장: 제6·7과 연습문제에만 추가 */
+.exam-picture-tabs{display:none;gap:8px;flex-wrap:wrap;margin:13px 0 16px}
+.exam-picture-tabs.visible{display:flex}
+.exam-picture-tabs .btn{min-width:112px}
+.exam-picture-view{display:none;margin:10px 0 14px}
+.exam-picture-view.open{display:block}
+.exam-picture-frame{width:100%;padding:0;margin:0;background:#fff;border:1px solid #e0d4bd;border-radius:12px;overflow:hidden}
+.exam-picture-frame img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+.exam-picture-nav{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:12px 0}
+.exam-picture-nav .btn{min-width:90px}
+.exam-picture-count{font-weight:750;color:var(--muted)}
+.exam-picture-note{font-size:.88rem;color:var(--muted);line-height:1.65;margin:8px 0}
+@media(max-width:650px){.exam-picture-tabs{display:none}.exam-picture-tabs.visible{display:flex}.exam-picture-nav .btn{min-width:75px}}
 </style>
 </head>
 <body>
@@ -235,9 +249,22 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 <section class="page" id="sent">
   <div class="card"><h2>교재 연습문제 해석</h2>
     <div class="controls" id="sentenceLessonFilters"></div>
+    <div class="exam-picture-tabs" id="examPictureTabs" aria-label="6·7과 학습 방식">
+      <button class="btn primary" id="examPictureTextBtn" type="button" onclick="setExamPictureMode(false)">연습문제</button>
+      <button class="btn" id="examPictureImageBtn" type="button" onclick="setExamPictureMode(true)">그림연습장</button>
+    </div>
     <div class="callout red"><b>기본 화면은 실제 출제 규칙만:</b> 홀수 과는 홀수 번호, 짝수 과는 짝수 번호. “교재 전체보기”를 누르면 I·II 문제 전체를 볼 수 있습니다.</div>
     <div class="controls"><button class="btn primary" id="examOnlyBtn" onclick="setSentenceMode(true)">시험출제만</button><button class="btn" id="allSentBtn" onclick="setSentenceMode(false)">교재 전체보기</button></div>
     <div id="sentenceList"></div>
+    <div class="exam-picture-view" id="examPictureView" aria-label="그림연습장">
+      <div class="exam-picture-nav">
+        <button type="button" class="btn" onclick="stepExamPicture(-1)">← 이전 문제</button>
+        <span class="exam-picture-count" id="examPictureCount" aria-live="polite"></span>
+        <button type="button" class="btn" onclick="stepExamPicture(1)">다음 문제 →</button>
+      </div>
+      <figure class="exam-picture-frame"><img id="examPictureImage" alt="시험 대비 연습문제 그림" loading="lazy"></figure>
+      <p class="exam-picture-note">문제 번호 순서대로 한 장씩 넘길 수 있습니다. 그림의 비율은 변경하지 않았습니다.</p>
+    </div>
   </div>
 </section>
 
@@ -887,6 +914,57 @@ function pictureLoadOk(img,errorId){
   img.style.display='block';
   const e=document.getElementById(errorId); if(e)e.hidden=true;
 }
+
+// ===== 시험 대비 그림연습장 전용 (기존 연습문제·단어 카드 변경 없음) =====
+const examPictureFiles={
+  6:[10,12,14,16,18,20],
+  7:[11,13,15,17,19]
+};
+let examPictureMode=false,examPictureIndex=0;
+function examPictureEligible(){return Number(currentSentenceLesson)===6||Number(currentSentenceLesson)===7;}
+function syncExamPictureMode(){
+  const eligible=examPictureEligible();
+  const enabled=eligible&&examPictureMode;
+  const tabs=document.getElementById('examPictureTabs');
+  tabs.classList.toggle('visible',eligible);
+  document.getElementById('examPictureTextBtn').classList.toggle('primary',!enabled);
+  document.getElementById('examPictureImageBtn').classList.toggle('primary',enabled);
+  document.getElementById('sentenceList').style.display=enabled?'none':'';
+  document.getElementById('examOnlyBtn').parentElement.style.display=enabled?'none':'';
+  document.getElementById('examPictureView').classList.toggle('open',enabled);
+  if(enabled)renderExamPicture();
+}
+function setExamPictureMode(picture){
+  if(picture&&!examPictureEligible())return;
+  examPictureMode=!!picture;
+  examPictureIndex=0;
+  syncExamPictureMode();
+}
+function renderExamPicture(){
+  const l=Number(currentSentenceLesson),nums=examPictureFiles[l];
+  if(!nums)return;
+  examPictureIndex=(examPictureIndex+nums.length)%nums.length;
+  const no=nums[examPictureIndex];
+  const img=document.getElementById('examPictureImage');
+  img.src=`./exam-pictures/${l}_${no}.png`;
+  img.alt=`제${l}과 연습문제 I-${no}번 그림연습장`;
+  document.getElementById('examPictureCount').textContent=`${l}과 · ${no}번 (${examPictureIndex+1}/${nums.length})`;
+}
+function stepExamPicture(delta){
+  const nums=examPictureFiles[Number(currentSentenceLesson)];
+  if(!nums)return;
+  examPictureIndex=(examPictureIndex+delta+nums.length)%nums.length;
+  renderExamPicture();
+}
+// 기존 setSentenceLesson을 감싸어 선택 변경 때만 그림 탭 상태를 갱신
+const originalSetSentenceLesson=setSentenceLesson;
+setSentenceLesson=function(lesson){
+  originalSetSentenceLesson(lesson);
+  examPictureMode=false;
+  examPictureIndex=0;
+  syncExamPictureMode();
+};
+syncExamPictureMode();
 </script>
 </body>
 </html>
