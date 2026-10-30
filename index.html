@@ -815,6 +815,9 @@ function renderSentenceLessonFilters(){
   if(!box)return;
   const buttons=[`<button class="btn sentence-lesson-btn ${currentSentenceLesson==='all'?'primary':''}" data-lesson="all" onclick="setSentenceLesson('all')">전체</button>`]
     .concat(sentenceLessons().map(l=>`<button class="btn sentence-lesson-btn ${String(currentSentenceLesson)===String(l)?'primary':''}" data-lesson="${l}" onclick="setSentenceLesson(${l})">${l}과</button>`));
+  // 시험 그림은 전체 화면에서도 바로 찾을 수 있도록 과별 바로가기만 추가
+  buttons.push('<button class="btn sentence-picture-shortcut" type="button" onclick="openExamPictureLesson(6)">6과 그림연습장</button>');
+  buttons.push('<button class="btn sentence-picture-shortcut" type="button" onclick="openExamPictureLesson(7)">7과 그림연습장</button>');
   box.innerHTML=buttons.join('');
 }
 function setSentenceLesson(lesson){
@@ -933,6 +936,10 @@ function syncExamPictureMode(){
   document.getElementById('examOnlyBtn').parentElement.style.display=enabled?'none':'';
   document.getElementById('examPictureView').classList.toggle('open',enabled);
   if(enabled)renderExamPicture();
+}
+function openExamPictureLesson(lesson){
+  setSentenceLesson(lesson);
+  setExamPictureMode(true);
 }
 function setExamPictureMode(picture){
   if(picture&&!examPictureEligible())return;
