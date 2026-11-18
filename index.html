@@ -178,6 +178,15 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
 .l9-grammar-notes>div+div{margin-top:8px}
 .l9-section-head{font-size:.94rem;font-weight:900;color:var(--navy);margin:11px 0 6px}
 @media (max-width:520px){.l9-grid th{min-width:76px;max-width:76px;padding:8px 5px;font-size:.74rem}.l9-grid td{min-width:122px;max-width:145px;padding:8px 6px}.l9-grid .l9-greek{font-size:1.19rem}}
+
+/* New lessons 8–10 only: mobile image panning, original aspect ratio. */
+.exam-picture-pan-hint{display:none}
+@media (max-width:767px) and (orientation:portrait){
+  #examPictureView.exam-picture-pan-new{min-width:0;max-width:100%}
+  #examPictureView.exam-picture-pan-new .exam-picture-pan-hint{display:block;text-align:center;font-size:.78rem;color:var(--muted);margin:6px 0}
+  #examPictureView.exam-picture-pan-new .exam-picture-frame{box-sizing:border-box;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  #examPictureView.exam-picture-pan-new .exam-picture-frame img{width:960px;min-width:960px;max-width:none;height:auto}
+}
 </style>
 </head>
 <body>
@@ -302,6 +311,7 @@ details{border:1px solid var(--line);border-radius:14px;background:#fff;margin:1
         <span class="exam-picture-count" id="examPictureCount" aria-live="polite"></span>
         <button type="button" class="btn" onclick="stepExamPicture(1)">다음 문제 →</button>
       </div>
+      <p class="exam-picture-pan-hint">← 좌우로 밀어서 보세요 →</p>
       <figure class="exam-picture-frame"><img id="examPictureImage" alt="시험 대비 연습문제 그림" loading="lazy"></figure>
       <p class="exam-picture-note">문제 번호 순서대로 한 장씩 넘길 수 있습니다. 그림의 비율은 변경하지 않았습니다.</p>
     </div>
@@ -8481,6 +8491,9 @@ function renderSentenceLessonFilters(){
   // 시험 그림은 전체 화면에서도 바로 찾을 수 있도록 과별 바로가기만 추가
   buttons.push(`<button class="btn sentence-picture-shortcut ${examPictureMode && Number(currentSentenceLesson)===6?'primary':''}" type="button" onclick="openExamPictureLesson(6)">6과 그림연습장</button>`);
   buttons.push(`<button class="btn sentence-picture-shortcut ${examPictureMode && Number(currentSentenceLesson)===7?'primary':''}" type="button" onclick="openExamPictureLesson(7)">7과 그림연습장</button>`);
+  buttons.push(`<button class="btn sentence-picture-shortcut ${examPictureMode && Number(currentSentenceLesson)===8?'primary':''}" type="button" onclick="openExamPictureLesson(8)">8과 그림연습장</button>`);
+  buttons.push(`<button class="btn sentence-picture-shortcut ${examPictureMode && Number(currentSentenceLesson)===9?'primary':''}" type="button" onclick="openExamPictureLesson(9)">9과 그림연습장</button>`);
+  buttons.push(`<button class="btn sentence-picture-shortcut ${examPictureMode && Number(currentSentenceLesson)===10?'primary':''}" type="button" onclick="openExamPictureLesson(10)">10과 그림연습장</button>`);
   box.innerHTML=buttons.join('');
 }
 function setSentenceLesson(lesson){
@@ -8585,10 +8598,13 @@ function pictureLoadOk(img,errorId){
 // ===== 시험 대비 그림연습장 전용 (기존 연습문제·단어 카드 변경 없음) =====
 const examPictureFiles={
   6:[10,12,14,16,18,20],
-  7:[11,13,15,17,19]
+  7:[11,13,15,17,19],
+  8:[2,4,6,8,10],
+  9:[1,3,5,7,9],
+  10:[2,4,6,8,10]
 };
 
-function examPictureEligible(){return Number(currentSentenceLesson)===6||Number(currentSentenceLesson)===7;}
+function examPictureEligible(){return Object.prototype.hasOwnProperty.call(examPictureFiles,Number(currentSentenceLesson));}
 function syncExamPictureMode(){
   const enabled=examPictureEligible() && examPictureMode;
   const list=document.getElementById('sentenceList');
@@ -8601,7 +8617,7 @@ function syncExamPictureMode(){
     b.classList.toggle('primary',!enabled && String(b.dataset.lesson)===String(currentSentenceLesson));
   });
   document.querySelectorAll('#sentenceLessonFilters .sentence-picture-shortcut').forEach((b,i)=>{
-    b.classList.toggle('primary',enabled && Number(currentSentenceLesson)===(i===0?6:7));
+    b.classList.toggle('primary',enabled && Number(currentSentenceLesson)===Number(Object.keys(examPictureFiles)[i]));
   });
   if(enabled)renderExamPicture();
 }
@@ -8629,6 +8645,8 @@ function renderExamPicture(){
   examPictureIndex=(examPictureIndex+nums.length)%nums.length;
   const no=nums[examPictureIndex];
   const img=document.getElementById('examPictureImage');
+  document.getElementById('examPictureView').classList.toggle('exam-picture-pan-new',l>=8&&l<=10);
+  if(l>=8&&l<=10)img.parentElement.scrollLeft=0;
   img.src=`./exam-pictures/${l}_${no}.png`;
   img.alt=`제${l}과 연습문제 I-${no}번 그림연습장`;
   document.getElementById('examPictureCount').textContent=`${l}과 · ${no}번 (${examPictureIndex+1}/${nums.length})`;
